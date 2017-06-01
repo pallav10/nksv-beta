@@ -1,7 +1,10 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.utils.text import slugify
 from rest_framework.authtoken.models import Token
+
+from timezone_field import TimeZoneField
 
 
 # Create your models here.
@@ -55,7 +58,6 @@ class User(AbstractBaseUser):
     state = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
     is_staff = models.IntegerField(default=False)
-    is_active = models.IntegerField(default=False)
 
     USERNAME_FIELD = 'email'
     objects = UserManager()
@@ -76,3 +78,78 @@ class UserResetPassword(models.Model):
     def __unicode__(self):
         return self.email
 
+
+class Category(models.Model):
+
+    class Meta:
+        db_table = 'category'
+        managed = True
+
+    category_name = models.CharField(max_length=100, db_index=True)
+    category_slug = models.SlugField()
+
+
+def image_upload_to(instance, filename):
+    title = instance.product.product_title
+    slug = slugify(title)
+    basename, file_extension = filename.split(".")
+    new_filename = "%s-%s.%s" % (slug, instance.id, file_extension)
+
+    # return something
+    pass
+
+
+class Product(models.Model):
+
+    class Meta:
+        db_table = 'product'
+        managed = True
+
+    product_name = models.CharField(max_length=200, db_index=True, unique=True)
+    category = models.ForeignKey(Category)
+    product_price = models.IntegerField()
+    product_description = models.TextField(max_length=200)
+    is_available = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self.product_name
+
+
+class ProductImage(models.Model):
+
+    class Meta:
+        db_table = 'product_image'
+        managed = True
+
+    product = models.ForeignKey(Product)
+    image = models.ImageField(upload_to=image_upload_to)
+
+
+class Appointment(models.Model):
+    # Creates an appointment table which must be further used to send text reminders using twilio
+
+    appointment_name = models.CharField(max_length=150)
+    time = models.DateTimeField()
+    time_zone = TimeZoneField(default='Asia/Kolkata')  # Indian Time Zone.
+
+    # Adsditional fields not visible to users
+    created = models.DateTimeField(auto_now_add=True)
+    is_available = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self.appointment_name
+
+
+class Service(models.Model):
+
+    class Meta:
+        db_table = 'services'
+        managed = True
+
+    service_name = models.CharField(max_length=100, db_index=True)
+    service_category = models.ForeignKey(Category)
+    service_description = models.TextField(max_length=500)
+    service_appointment = models.ForeignKey(Appointment)
+
+    def __unicode__(self):
+        return self.service_name

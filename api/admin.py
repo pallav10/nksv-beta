@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from models import User, Category, Product, ProductImage, Service, Appointment
+from models import User, Category, Product, ProductImage, Service, Appointment, Blog
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -16,3 +16,16 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category, CategoryAdmin)
+
+
+class BlogAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Blog, BlogAdmin)
+
+
+class BlogImageAdmin(admin.ModelAdmin):
+    pass
+
+

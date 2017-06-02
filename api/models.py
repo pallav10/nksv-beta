@@ -151,14 +151,8 @@ class Service(models.Model):
         return self.service_name
 
 
-def blog_upload_to(instance, filename):
-    title = instance.product.product_title
-    slug = slugify(title)
-    basename, file_extension = filename.split(".")
-    new_filename = "%s-%s.%s" % (slug, instance.id, file_extension)
 
-    # return something
-    pass
+
 
 class Blog(models.Model):
     class Meta:
@@ -167,18 +161,11 @@ class Blog(models.Model):
 
     blog_name = models.CharField(max_length=100, db_index=True)
     blog_description = models.TextField(max_length=500)
+    blog_image = models.ImageField(blank=True)
 
     def __unicode__(self):
         return self.blog_name
 
-
-class BlogImage(models.Model):
-    class Meta:
-        db_table = 'blog_image'
-        managed = True
-
-    product = models.ForeignKey(Blog)
-    image = models.ImageField(upload_to=blog_upload_to)
 
 
 

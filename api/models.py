@@ -80,7 +80,6 @@ class UserResetPassword(models.Model):
 
 
 class Category(models.Model):
-
     class Meta:
         db_table = 'category'
         managed = True
@@ -100,7 +99,6 @@ def image_upload_to(instance, filename):
 
 
 class Product(models.Model):
-
     class Meta:
         db_table = 'product'
         managed = True
@@ -116,7 +114,6 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-
     class Meta:
         db_table = 'product_image'
         managed = True
@@ -132,7 +129,7 @@ class Appointment(models.Model):
     time = models.DateTimeField()
     time_zone = TimeZoneField(default='Asia/Kolkata')  # Indian Time Zone.
 
-    # Adsditional fields not visible to users
+    # Additional fields not visible to users
     created = models.DateTimeField(auto_now_add=True)
     is_available = models.BooleanField(default=True)
 
@@ -141,7 +138,6 @@ class Appointment(models.Model):
 
 
 class Service(models.Model):
-
     class Meta:
         db_table = 'services'
         managed = True
@@ -153,3 +149,36 @@ class Service(models.Model):
 
     def __unicode__(self):
         return self.service_name
+
+
+def blog_upload_to(instance, filename):
+    title = instance.product.product_title
+    slug = slugify(title)
+    basename, file_extension = filename.split(".")
+    new_filename = "%s-%s.%s" % (slug, instance.id, file_extension)
+
+    # return something
+    pass
+
+class Blog(models.Model):
+    class Meta:
+        db_table = 'blog'
+        managed = True
+
+    blog_name = models.CharField(max_length=100, db_index=True)
+    blog_description = models.TextField(max_length=500)
+
+    def __unicode__(self):
+        return self.blog_name
+
+
+class BlogImage(models.Model):
+    class Meta:
+        db_table = 'blog_image'
+        managed = True
+
+    product = models.ForeignKey(Blog)
+    image = models.ImageField(upload_to=blog_upload_to)
+
+
+

@@ -525,6 +525,34 @@ def product_detail(request, pk):
 @api_view(['GET'])
 @permission_classes((AllowAny,))
 def service_detail(request, pk):
+    """
+
+            **Get the service data- Ignore**
+
+            > GET
+
+            Returns the Service data.
+
+            * Requires `service id` which is an integer and taken as primary key
+            to identify product.
+
+            * Possible HTTP status codes and JSON response:
+
+                * `HTTP_200_OK` - Returns the service data:
+
+                        {
+                          "id": Integer,
+                          "service_name": String,
+                          "service_category": String,
+                          "service_description": String,
+                          "service_appointment": Date
+                        }
+
+                * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+
+                :param pk:
+                :param request:
+            """
     try:
         service = validations_utils.service_validation(pk)  # Validates if user exists or not.
     except ValidationException as e:  # Generic exception

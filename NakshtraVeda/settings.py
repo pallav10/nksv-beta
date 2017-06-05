@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework.authtoken',
     'rest_framework',
+    'rest_framework_swagger',
     'api',
     'timezone_field',
 ]
@@ -151,3 +152,30 @@ REST_FRAMEWORK = {
 
 }
 
+SWAGGER_SETTINGS = {
+    "exclude_namespaces": ["internal_apis"],  # List URL namespaces to ignore
+    'api_version': '0.1',
+    'api_path': '/',
+    'base_path': '127.0.0.1:8000/docs',
+    'enabled_methods': [
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete'
+    ],
+    'api_key': '',
+    'is_authenticated': False,
+    'is_superuser': False,
+    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
+    'permission_denied_handler': None,
+    'resource_access_handler': None,
+
+    'info': {
+        # 'contact': 'apiteam@wordnik.com',
+        'description': 'This is Nakshtraveda server. '
+                       'For this Nakshtraveda app, you can use these APIs ',
+        'title': 'Nakshtraveda App',
+    },
+    'doc_expansion': 'none',
+}

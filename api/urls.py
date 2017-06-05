@@ -1,6 +1,10 @@
 from django.conf.urls import url
 import views
 
+internal_apis = [
+    url(r'^docs/$', views.schema_view, name="schema_view"),
+]
+
 urlpatterns = [
     url(r'^users/$', views.user_registration),
     url(r'^users/(?P<pk>[0-9]+)/$', views.user_detail),
@@ -14,9 +18,6 @@ urlpatterns = [
     url(r'^services/$', views.services),
     url(r'^services/(?P<pk>[0-9]+)/$', views.service_detail),
     url(r'^blogs/$', views.blogs),
-    url(r'^blogs/(?P<pk>[0-9]+)/$', views.blogs_detail)
-
-
+    url(r'^blogs/(?P<pk>[0-9]+)/$', views.blogs_detail),
+    url(r'^docs/$', views.schema_view, name="schema_view"),
 ]
-
-

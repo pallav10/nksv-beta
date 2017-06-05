@@ -1,12 +1,9 @@
 from __future__ import unicode_literals
-from django.utils import timezone
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-from django.utils.http import urlquote
-from django.utils.text import slugify
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from rest_framework.authtoken.models import Token
-
 from timezone_field import TimeZoneField
 
 
@@ -149,7 +146,7 @@ class Product(models.Model):
         managed = True
 
     product_name = models.CharField(max_length=200, db_index=True, unique=True)
-    category = models.ForeignKey(Category)
+    product_category = models.ForeignKey(Category)
     product_price = models.IntegerField()
     product_description = models.TextField(max_length=200)
     product_image = models.ImageField(blank=True)

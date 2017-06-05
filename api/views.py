@@ -1,28 +1,38 @@
 import re
-# from time import timezone
-from django.utils import timezone
-from django.shortcuts import get_object_or_404
+
 from django.contrib.auth import authenticate
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+from django.utils import timezone
+from rest_framework import schemas
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
+
+import messages
 import utils
 import validations_utils
-import messages
+from exceptions_utils import ValidationException
 from forms import ResetPasswordForm
 from models import UserResetPassword, Blog, Product
 from permission import UserPermissions
-from exceptions_utils import ValidationException
-from serializers import UserSerializer, UserProfileSerializer, ProductSerializer, ServiceSerializer, BlogSerializer
-from rest_framework.generics import ListAPIView
-
+from serializers import UserProfileSerializer, ProductSerializer, ServiceSerializer, BlogSerializer
+from rest_framework.decorators import api_view, permission_classes
 
 # Create your views here.
+
+
+@api_view()
+@permission_classes((AllowAny,))
+@renderer_classes([OpenAPIRenderer, SwaggerUIRenderer])
+def schema_view(request):
+    generator = schemas.SchemaGenerator(title='Rest Swagger')
+    return Response(generator.get_schema(request=request))
 
 
 @api_view(['POST'])
@@ -95,7 +105,6 @@ dd
 @permission_classes((UserPermissions, IsAuthenticated))
 def user_detail(request, pk):
     """
-
     **Get or change the user profile data- Ignore**
 
     > GET
@@ -402,6 +411,31 @@ def password_reset_done(request, pk):
 @api_view(['GET'])
 @permission_classes((AllowAny,))
 def products(request):
+    """
+        **Get all the products data- Ignore**
+
+        > GET
+
+        Returns the Products data.
+
+        * Possible HTTP status codes and JSON response:
+
+            * `HTTP_200_OK` - Returns the products data:
+
+                    {
+                      "id": Integer,
+                      "product_name": String,
+                      "product_category": String,
+                      "product_price": String,
+                      "product_description": String,
+                      "product_image": Url,
+                      "is_available": Boolean
+                    }
+
+            * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+
+            :param request:
+        """
     all_products = Product.objects.all()  # Get all products
     if request.method == 'GET':
         if all_products:
@@ -414,6 +448,29 @@ def products(request):
 @api_view(['GET'])
 @permission_classes((AllowAny,))
 def services(request):
+    """
+            **Get all the services data- Ignore**
+
+            > GET
+
+            Returns the services data.
+
+            * Possible HTTP status codes and JSON response:
+
+                * `HTTP_200_OK` - Returns the services data:
+
+                        {
+                          "id": Integer,
+                          "service_name": String,
+                          "service_category": String,
+                          "service_description": String,
+                          "service_appointment": Date
+                        }
+
+                * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+
+                :param request:
+            """
     all_services = Product.objects.all()  # Get all tracks
     if request.method == 'GET':
         if all_services:
@@ -426,6 +483,36 @@ def services(request):
 @api_view(['GET'])
 @permission_classes((AllowAny,))
 def product_detail(request, pk):
+    """
+
+        **Get the product data- Ignore**
+
+        > GET
+
+        Returns the Product data.
+
+        * Requires `product id` which is an integer and taken as primary key
+        to identify product.
+
+        * Possible HTTP status codes and JSON response:
+
+            * `HTTP_200_OK` - Returns the product data:
+
+                    {
+                      "id": Integer,
+                      "product_name": String,
+                      "product_category": String,
+                      "product_price": String,
+                      "product_description": String,
+                      "product_image": Url,
+                      "is_available": Boolean
+                    }
+
+            * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+
+            :param pk:
+            :param request:
+        """
     try:
         product = validations_utils.product_validation(pk)  # Validates if user exists or not.
     except ValidationException as e:  # Generic exception

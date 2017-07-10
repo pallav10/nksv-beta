@@ -12,13 +12,32 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 try:
     from local_settings import *
 except ImportError:
     pass
+
+import djcelery
+from datetime import timedelta
+
+djcelery.setup_loader()
+
+# BROKER_URL = 'amqp://myuser:mypassword@127.0.0.1:5672//'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_IMPORTS = ('api.tasks',)
+
+
+CELERYBEAT_SCHEDULE = {
+    'rsync-every-10-seconds': {
+        'task': 'api.tasks.rsync_every_ten_seconds',
+        'schedule': timedelta(seconds=10),
+    }
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -40,9 +59,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'rest_framework',
     'rest_framework_swagger',
+    'djcelery',
     'api',
     'timezone_field',
 ]
@@ -91,7 +111,7 @@ WSGI_APPLICATION = 'NakshtraVeda.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'nakshtraveda',
+        'NAME': 'nakshatraveda',
         'USER': 'postgres',
         'PASSWORD': 'postgres123',
         'HOST': '127.0.0.1',
@@ -150,8 +170,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
+        'rest_framework.authentication.SessionAuthentication'
+        # 'rest_framework.authentication.TokenAuthentication'
     )
 
 }
@@ -179,7 +199,10 @@ SWAGGER_SETTINGS = {
         # 'contact': 'apiteam@wordnik.com',
         'description': 'This is Nakshtraveda server. '
                        'For this Nakshtraveda app, you can use these APIs ',
-        'title': 'Nakshtraveda App',
+        'title': 'Nakshatraveda App',
     },
     'doc_expansion': 'none',
 }
+
+
+

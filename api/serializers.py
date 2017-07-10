@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from models import User, Category, Blog, Service
-
+from models import *
 
 # used for registration, it hold the value of user table with all fields.
 
@@ -26,27 +25,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 # serialize data of categories for common need of category table.
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = (
-            'id', 'category_name', 'category_slug')
-
-
-# serialize data of categories for common need of category table.
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Category
-        fields = ('id', 'product_name', 'category', 'product_price', 'product_description', 'product_image', 'is_available')
+        model = Product
+        fields = ('id', 'name', 'price', 'description', 'image', 'is_available')
 
 
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
-        fields = ('id', 'service_name', 'service_category', 'service_description')
+        fields = ('id', 'service_category', 'name', 'description', 'image', 'is_available')
 
-
-class BlogSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Blog
-        fields = ('id', 'blog_name', 'blog_description', 'blog_image')

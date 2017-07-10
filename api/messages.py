@@ -4,6 +4,10 @@ BASE_DICT = {
     MESSAGE: None
 }
 
+USER_REGISTRATION_FAILED = {
+    MESSAGE: "user registration failed!"
+}
+
 USER_DOES_NOT_EXISTS = {
     MESSAGE: "User does not exist!"
 }

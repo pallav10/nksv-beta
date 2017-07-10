@@ -1,9 +1,8 @@
 from django.contrib import admin
-# Register your models here.
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 
-from models import User, Category, Product, Service, Appointment, Blog
+from models import *
 
 
 class CustomUserAdmin(UserAdmin):
@@ -30,7 +29,13 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(Appointment)
+admin.site.register(Article)
+admin.site.register(ProductCategory)
 admin.site.register(Product)
-admin.site.register(Blog)
-admin.site.register(Category)
+admin.site.register(ServiceCategory)
+admin.site.register(Service)
+admin.site.register(Order)
+admin.site.register(OrderProduct)
+admin.site.register(OrderService)
+admin.site.register(ImageGallery)
+admin.site.register(VideoGallery)

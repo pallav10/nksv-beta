@@ -9,8 +9,29 @@ from timezone_field import TimeZoneField
 
 # Create your models here.
 
-class CustomUserManager(BaseUserManager):
 
+# class UserManager(BaseUserManager):
+#     def create_user(self, email, password=None):
+#         if not email:
+#             raise ValueError("User must have an email")
+#
+#         user = self.model(email=email)
+#         user.set_password(password)
+#         user.save(using=self._db)
+#         Token.objects.create(user=user)
+#         return user
+#
+#     def create_superuser(self, email, password):
+#
+#         if not (email or password):
+#             raise ValueError("Super user must have an email and password")
+#         user = self.create_user(email, password)
+#         user.is_admin = True
+#         user.is_staff = True
+#         user.is_superuser = True
+#         user.save()
+
+class CustomUserManager(BaseUserManager):
     def _create_user(self, email, password,
                      is_staff, is_superuser, **extra_fields):
         """
@@ -36,31 +57,11 @@ class CustomUserManager(BaseUserManager):
         return self._create_user(email, password, True, True,
                                  **extra_fields)
 
-# class UserManager(BaseUserManager):
-#     def create_user(self, email, password=None):
-#         if not email:
-#             raise ValueError("User must have an email")
-#
-#         user = self.model(email=email)
-#         user.set_password(password)
-#         user.save(using=self._db)
-#         Token.objects.create(user=user)
-#         return user
-#
-#     def create_superuser(self, email, password):
-#
-#         if not (email or password):
-#             raise ValueError("Super user must have an email and password")
-#         user = self.create_user(email, password)
-#         user.is_admin = True
-#         user.is_staff = True
-#         user.is_superuser = True
-#         user.save()
-
 
 class User(AbstractBaseUser, PermissionsMixin):
     """this class represents the user Model.
     """
+
     class Meta:
         db_table = 'users'
         managed = True
@@ -89,6 +90,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
     #
     # def get_absolute_url(self):
     #     return "/users/%s/" % urlquote(self.email)
@@ -121,14 +123,121 @@ class UserResetPassword(models.Model):
         return self.email
 
 
-class Category(models.Model):
+class ProductCategory(models.Model):
     class Meta:
-        db_table = 'category'
+        db_table = 'product_categories'
         managed = True
 
-    category_name = models.CharField(max_length=100, db_index=True)
-    category_slug = models.SlugField()
+    name = models.CharField(max_length=100, db_index=True)
+    description = models.CharField(max_length=500, blank=True)
+    image = models.ImageField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    is_available = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=False)
+    # slug = models.SlugField()
 
+    def __unicode__(self):
+        return self.name
+
+
+class Product(models.Model):
+    class Meta:
+        db_table = 'products'
+        managed = True
+
+    product_category = models.ForeignKey(ProductCategory)
+    name = models.CharField(max_length=200, db_index=True, unique=True)
+    description = models.TextField(max_length=200)
+    price = models.IntegerField()
+    image = models.ImageField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    is_available = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.name
+
+
+class ServiceCategory(models.Model):
+    class Meta:
+        db_table = 'service_categories'
+        managed = True
+
+    name = models.CharField(max_length=100, db_index=True)
+    description = models.CharField(max_length=500, blank=True)
+    image = models.ImageField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    is_available = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=False)
+
+    # slug = models.SlugField()
+
+    def __unicode__(self):
+        return self.name
+
+
+class Service(models.Model):
+    class Meta:
+        db_table = 'services'
+        managed = True
+
+    service_category = models.ForeignKey(ServiceCategory)
+    name = models.CharField(max_length=200, db_index=True, unique=True)
+    description = models.TextField(max_length=200)
+    price = models.IntegerField()
+    image = models.ImageField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    is_available = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Order(models.Model):
+    class Meta:
+        db_table = 'orders'
+        managed = True
+
+    user = models.ForeignKey(User)
+    name = models.CharField(max_length=200, blank=True)
+    paid_date = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    notes = models.CharField(max_length=400, blank=True)
+
+
+class OrderProduct(models.Model):
+    class Meta:
+        db_table = 'order_products'
+        managed = True
+
+    order = models.ForeignKey(Order)
+    product_category = models.ForeignKey(ProductCategory)
+    product = models.ForeignKey(Product)
+    quantity = models.IntegerField(default=1)
+
+
+class OrderService(models.Model):
+    class Meta:
+        db_table = 'order_services'
+        managed = True
+
+    order = models.ForeignKey(Order)
+    service_category = models.ForeignKey(ServiceCategory)
+    service = models.ForeignKey(Service)
+    quantity = models.IntegerField(default=1)
+
+
+class CartItem(models.Model):
+    class Meta:
+        db_table = 'cart_items'
+        managed = True
+    pass
 
 # def image_upload_to(instance, filename):
 #     title = instance.product.product_title
@@ -140,63 +249,78 @@ class Category(models.Model):
 #     pass
 
 
-class Product(models.Model):
+# class Appointment(models.Model):
+#     # Creates an appointment table which must be further used to send text reminders using twilio
+#
+#     appointment_name = models.CharField(max_length=150)
+#     time = models.DateTimeField()
+#     time_zone = TimeZoneField(default='Asia/Kolkata')  # Indian Time Zone.
+#
+#     # Additional fields not visible to users
+#     created = models.DateTimeField(auto_now_add=True)
+#     is_available = models.BooleanField(default=True)
+#
+#     def __unicode__(self):
+#         return self.appointment_name
+
+
+class Article(models.Model):
     class Meta:
-        db_table = 'product'
+        db_table = 'articles'
         managed = True
 
-    product_name = models.CharField(max_length=200, db_index=True, unique=True)
-    product_category = models.ForeignKey(Category)
-    product_price = models.IntegerField()
-    product_description = models.TextField(max_length=200)
-    product_image = models.ImageField(blank=True)
-    is_available = models.BooleanField(default=True)
-
-    def __unicode__(self):
-        return self.product_name
-
-
-class Appointment(models.Model):
-    # Creates an appointment table which must be further used to send text reminders using twilio
-
-    appointment_name = models.CharField(max_length=150)
-    time = models.DateTimeField()
-    time_zone = TimeZoneField(default='Asia/Kolkata')  # Indian Time Zone.
-
-    # Additional fields not visible to users
-    created = models.DateTimeField(auto_now_add=True)
-    is_available = models.BooleanField(default=True)
-
-    def __unicode__(self):
-        return self.appointment_name
-
-
-class Service(models.Model):
-    class Meta:
-        db_table = 'services'
-        managed = True
-
-    service_name = models.CharField(max_length=100, db_index=True)
-    service_category = models.ForeignKey(Category)
-    service_description = models.TextField(max_length=500)
-    service_appointment = models.ForeignKey(Appointment)
-
-    def __unicode__(self):
-        return self.service_name
-
-
-class Blog(models.Model):
-    class Meta:
-        db_table = 'blog'
-        managed = True
-
-    blog_name = models.CharField(max_length=100, db_index=True)
-    blog_description = models.TextField(max_length=500)
-    blog_image = models.ImageField(blank=True)
+    name = models.CharField(max_length=100, db_index=True)
+    description = models.TextField(max_length=500, blank=True)
+    image = models.ImageField(blank=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.blog_name
 
 
+class ImageGallery(models.Model):
+    class Meta:
+        db_table = 'images'
+    name = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=400, blank=True)
+    image = models.ImageField(blank=True)
+
+
+class VideoGallery(models.Model):
+    class Meta:
+        db_table = 'videos'
+        managed = True
+
+    name = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=400, blank=True)
+    video = models.FileField(blank=True)
+
+
+class Horoscope(models.Model):
+    class Meta:
+        db_table = 'horoscopes'
+        managed = True
+
+    CATEGORY_CHOICES = [('daily', 'daily'), ('weekly', 'weekly'), ('yearly', 'yearly')]
+    status = models.CharField(max_length=20, choices=CATEGORY_CHOICES, blank=False, default='waiting')
+    HOROSCOPE_CHOICES = [('Aries', 'Aries'), ('Taurus', 'Taurus'), ('Gemini', 'Gemini'), ('Cancer', 'Cancer'),
+                         ('Leo', 'Leo'), ('Virgo', 'Virgo'), ('Libra', 'Libra'), ('Scorpio', 'Scorpio'),
+                         ('Sagittarius', 'Sagittarius'), ('Capricorn', 'Capricorn'), ('Aquarius', 'Aquarius'),
+                         ('Pisces', 'Pisces')]
+    name = models.CharField(max_length=20, choices=HOROSCOPE_CHOICES, blank=False, default='Aries')
+    description = models.CharField(max_length=500)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+# class ChildNameClients(models.Model):
+#     class Meta:
+#         db_table = 'child_name_clients'
+#         managed = True
+#
+#     GENDER_CHOICES = [('son', 'son'), ('daughter', 'daughter')]
+#     gender = models.CharField(max_length=20, choices=GENDER_CHOICES, blank=False, default='son')
+#     client_email = models.EmailField(max_length=254, unique=True)
+#     client_contact_no = models.BigIntegerField(blank=True, null=True)
+#     date = models.DateField(blank=True, null=True)
 
 

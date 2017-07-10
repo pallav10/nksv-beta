@@ -1,6 +1,5 @@
 import hashlib
 import random
-
 import datetime
 from django.contrib.auth.hashers import make_password
 from django.core.mail import EmailMessage
@@ -12,6 +11,7 @@ from models import User, UserResetPassword
 from serializers import UserSerializer, UserProfileSerializer
 import exceptions_utils
 from rest_framework import status
+import tasks
 
 
 def generate_token(user):
@@ -39,13 +39,13 @@ def create_user(data):
     user_serializer = UserSerializer(data=data)
     if user_serializer.is_valid():
         user = user_serializer.save()
-        token = Token.objects.create(user=user)
-        if token:
-            user.save()
+        # token = Token.objects.create(user=user)
+        # if token:
+        #     user.save()
         keys = ['id', 'first_name', 'last_name', 'email', 'contact_no', 'created'
                 ]  # data that we want to return as JSON response
         user_response = {k: v for k, v in user_serializer.data.iteritems() if k in keys}
-        user_response['token'] = token.key
+        # user_response['token'] = token.key
         return user_response
     else:
         raise exceptions_utils.ValidationException(user_serializer.errors, status.HTTP_400_BAD_REQUEST)
@@ -62,12 +62,12 @@ def update_user(data, user):
 
 def authenticate_user(user, data):
     if user:
-        token = fetch_token(user)
+        # token = fetch_token(user)
         user_serializer = UserProfileSerializer(user, data=data)
         if user_serializer.is_valid():
             keys = ['id', 'email']
             user_serializer_dict = {k: v for k, v in user_serializer.data.iteritems() if k in keys}
-            user_serializer_dict['token'] = token
+            # user_serializer_dict['token'] = token
             user_serializer_dict.update(messages.LOGIN_SUCCESSFUL)
             return user_serializer_dict
         else:
@@ -136,3 +136,12 @@ def reset_password(user_reset_password, password):
     else:
         response = 'Link is not valid. :('
     return response
+
+
+def send_welcome_mail(current_site, user_id, email):
+    domain = current_site.domain
+    key = create_reset_password_key(email)
+    url_body = "http://%s/api/users/%s/password_reset/confirm/%s" % (
+        domain, user_id, key)
+    tasks.welcome_mail.delay(url_body, settings.EMAIL_HOST_USER, email)
+    pass

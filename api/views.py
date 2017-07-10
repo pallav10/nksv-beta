@@ -1,7 +1,8 @@
 import re
-
 from django.contrib.auth import authenticate
 from django.contrib.sites.shortcuts import get_current_site
+from django.db import IntegrityError
+from django.db import transaction
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -9,20 +10,19 @@ from django.shortcuts import render
 from django.utils import timezone
 from rest_framework import schemas
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes, renderer_classes
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import renderer_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
-
 import messages
 import utils
 import validations_utils
 from exceptions_utils import ValidationException
 from forms import ResetPasswordForm
-from models import UserResetPassword, Blog, Product
+from models import UserResetPassword, Product
 from permission import UserPermissions
-from serializers import UserProfileSerializer, ProductSerializer, ServiceSerializer, BlogSerializer
-from rest_framework.decorators import api_view, permission_classes
+from serializers import UserProfileSerializer, ProductSerializer, ServiceSerializer
 
 # Create your views here.
 
@@ -91,14 +91,27 @@ dd
     """
     if request.method == 'POST':
         try:
-            data = validations_utils.email_validation(
-                request.data)  # Validates email id, it returns lower-cased email in data.
-            data = validations_utils.password_validation(data)  # Validates password criteria.
-            data['password'] = utils.hash_password(data['password'])  # password encryption
-            data = utils.create_user(data)  # Creates user with request data.
-            return Response(data, status=status.HTTP_201_CREATED)
-        except ValidationException as e:  # Generic exception
-            return Response(e.errors, status=e.status)
+            with transaction.atomic():
+                try:
+                    data = validations_utils.email_validation(
+                        request.data)  # Validates email id, it returns lower-cased email in data.
+                    data = validations_utils.password_validation(data)  # Validates password criteria.
+                    data['password'] = utils.hash_password(data['password'])  # password encryption
+                    data = utils.create_user(data)  # Creates user with request data.
+                    user = validations_utils.user_validation_with_email(data['email'])  # Validates if user exists or
+                    #  not.
+
+                    if 'HTTP_HOST' not in request.META:
+                        request.META['HTTP_HOST'] = '127.0.0.1:8000'
+                    hostname = request.META['HTTP_HOST']
+                    current_site = get_current_site(request)
+                    utils.send_welcome_mail(current_site, user.id, user.email)  # send welcome email.
+                    return Response(data, status=status.HTTP_201_CREATED)
+                except ValidationException as e:  # Generic exception
+                    return Response(e.errors, status=e.status)
+
+        except IntegrityError:
+            return Response(messages.USER_REGISTRATION_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET', 'PUT'])
@@ -168,8 +181,8 @@ def user_detail(request, pk):
     data = request.data
     try:
         user = validations_utils.user_validation(pk)  # Validates if user exists or not.
-        token_user_id = validations_utils.user_token_validation(
-            request.auth.user_id, pk)  # Validates user's Token authentication.
+        # token_user_id = validations_utils.user_token_validation(
+        #     request.auth.user_id, pk)  # Validates user's Token authentication.
     except ValidationException as e:  # Generic exception
         return Response(e.errors, status=e.status)
     if request.method == 'GET':
@@ -286,7 +299,7 @@ def user_change_password(request, pk):
     """
     try:
         user = validations_utils.user_validation(pk)  # Validates if user exists or not.
-        validations_utils.user_token_validation(request.auth.user_id, pk)  # Validates user's Token authentication.
+        # validations_utils.user_token_validation(request.auth.user_id, pk)  # Validates user's Token authentication.
     except ValidationException as e:  # Generic exception
         return Response(e.errors, status=e.status)
     if request.method == 'PUT':
@@ -442,7 +455,7 @@ def products(request):
             product_serializer = ProductSerializer(all_products, many=True)
             return Response(product_serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(messages.EMPTY_PRODUCTS, status=status.HTTP_200_OK)
+            return Response(messages.EMPTY_PRODUCTS, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])
@@ -477,7 +490,7 @@ def services(request):
             service_serializer = ServiceSerializer(all_services, many=True)
             return Response(service_serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(messages.EMPTY_SERVICES, status=status.HTTP_200_OK)
+            return Response(messages.EMPTY_SERVICES, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])
@@ -561,25 +574,25 @@ def service_detail(request, pk):
         service_serializer = ServiceSerializer(service)
         return Response(service_serializer.data, status=status.HTTP_200_OK)
 
-
-@api_view(['GET'])
-@permission_classes((AllowAny,))
-def blogs(request):
-    all_blogs = Blog.objects.all()  # Get all tracks
-    if request.method == 'GET':
-        if all_blogs:
-            blog_serializer = BlogSerializer(all_blogs, many=True)
-            return Response(blog_serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(messages.EMPTY_BLOG, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
-@permission_classes((AllowAny,))
-def blogs_detail(request, pk=None):
-    blog_info = get_object_or_404(Blog, id=pk)  # 404 if the blog item is not found.
-    if request.method == 'GET':
-        blog_serializer = BlogSerializer(blog_info, many=True)
-        return Response(blog_serializer.data, status=status.HTTP_200_OK)
-    else:
-        return Response(messages.EMPTY_BLOG, status=status.HTTP_200_OK)
+#
+# @api_view(['GET'])
+# @permission_classes((AllowAny,))
+# def blogs(request):
+#     all_blogs = Blog.objects.all()  # Get all tracks
+#     if request.method == 'GET':
+#         if all_blogs:
+#             blog_serializer = BlogSerializer(all_blogs, many=True)
+#             return Response(blog_serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             return Response(messages.EMPTY_BLOG, status=status.HTTP_204_NO_CONTENT)
+#
+#
+# @api_view(['GET'])
+# @permission_classes((AllowAny,))
+# def blogs_detail(request, pk=None):
+#     blog_info = get_object_or_404(Blog, id=pk)  # 404 if the blog item is not found.
+#     if request.method == 'GET':
+#         blog_serializer = BlogSerializer(blog_info, many=True)
+#         return Response(blog_serializer.data, status=status.HTTP_200_OK)
+#     else:
+#         return Response(messages.EMPTY_BLOG, status=status.HTTP_204_NO_CONTENT)

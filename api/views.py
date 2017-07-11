@@ -183,8 +183,8 @@ def user_detail(request, pk):
     data = request.data
     try:
         user = validations_utils.user_validation(pk)  # Validates if user exists or not.
-        # token_user_id = validations_utils.user_token_validation(
-        #     request.auth.user_id, pk)  # Validates user's Token authentication.
+        token_user_id = validations_utils.user_token_validation(
+            request.auth.user_id, pk)  # Validates user's Token authentication.
     except ValidationException as e:  # Generic exception
         return Response(e.errors, status=e.status)
     if request.method == 'GET':
@@ -192,6 +192,7 @@ def user_detail(request, pk):
         return Response(user_profile_serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'PUT':
         try:
+            data['email'] = user.email
             data = validations_utils.email_validation(data)  # Validates email id, it returns lower-cased email in data.
             updated_data = utils.update_user(data, user)  # Updates user data.
             return Response(updated_data, status=status.HTTP_200_OK)
@@ -301,7 +302,7 @@ def user_change_password(request, pk):
     """
     try:
         user = validations_utils.user_validation(pk)  # Validates if user exists or not.
-        # validations_utils.user_token_validation(request.auth.user_id, pk)  # Validates user's Token authentication.
+        validations_utils.user_token_validation(request.auth.user_id, pk)  # Validates user's Token authentication.
     except ValidationException as e:  # Generic exception
         return Response(e.errors, status=e.status)
     if request.method == 'PUT':

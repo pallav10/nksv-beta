@@ -39,13 +39,13 @@ def create_user(data):
     user_serializer = UserSerializer(data=data)
     if user_serializer.is_valid():
         user = user_serializer.save()
-        # token = Token.objects.create(user=user)
+        token = Token.objects.create(user=user)
         # if token:
         #     user.save()
         keys = ['id', 'first_name', 'last_name', 'email', 'contact_no', 'created'
                 ]  # data that we want to return as JSON response
         user_response = {k: v for k, v in user_serializer.data.iteritems() if k in keys}
-        # user_response['token'] = token.key
+        user_response['token'] = token.key
         return user_response
     else:
         raise exceptions_utils.ValidationException(user_serializer.errors, status.HTTP_400_BAD_REQUEST)
@@ -62,12 +62,12 @@ def update_user(data, user):
 
 def authenticate_user(user, data):
     if user:
-        # token = fetch_token(user)
+        token = fetch_token(user)
         user_serializer = UserProfileSerializer(user, data=data)
         if user_serializer.is_valid():
             keys = ['id', 'email']
             user_serializer_dict = {k: v for k, v in user_serializer.data.iteritems() if k in keys}
-            # user_serializer_dict['token'] = token
+            user_serializer_dict['token'] = token
             user_serializer_dict.update(messages.LOGIN_SUCCESSFUL)
             return user_serializer_dict
         else:

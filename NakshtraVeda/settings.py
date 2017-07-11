@@ -14,6 +14,8 @@ import os
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 try:
     from local_settings import *
@@ -59,7 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'rest_framework.authtoken',
+    'rest_framework.authtoken',
     'rest_framework',
     'rest_framework_swagger',
     'djcelery',
@@ -105,6 +107,11 @@ WSGI_APPLICATION = 'NakshtraVeda.wsgi.application'
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
+# }
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 # }
 
 
@@ -164,17 +171,18 @@ AUTH_USER_MODEL = 'api.User'
 
 REST_FRAMEWORK = {
     # 'VIEW_DESCRIPTION_FUNCTION': 'rest_framework_swagger.views.get_restructuredtext',
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-        'rest_framework.permissions.IsAuthenticated'
-    ),
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication'
-        # 'rest_framework.authentication.TokenAuthentication'
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     )
-
 }
+
 
 SWAGGER_SETTINGS = {
     "exclude_namespaces": ["internal_apis"],  # List URL namespaces to ignore
@@ -204,5 +212,9 @@ SWAGGER_SETTINGS = {
     'doc_expansion': 'none',
 }
 
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 

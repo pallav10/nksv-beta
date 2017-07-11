@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from timezone_field import TimeZoneField
+# from timezone_field import TimeZoneField
 
 
 # Create your models here.
@@ -272,7 +272,8 @@ class Article(models.Model):
     name = models.CharField(max_length=100, db_index=True)
     description = models.TextField(max_length=500, blank=True)
     image = models.ImageField(blank=True)
-    date = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.blog_name
@@ -284,6 +285,8 @@ class ImageGallery(models.Model):
     name = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=400, blank=True)
     image = models.ImageField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
 
 class VideoGallery(models.Model):
@@ -294,6 +297,8 @@ class VideoGallery(models.Model):
     name = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=400, blank=True)
     video = models.FileField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
 
 class Horoscope(models.Model):

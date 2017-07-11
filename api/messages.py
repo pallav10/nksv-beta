@@ -88,6 +88,14 @@ PASSWORD_MISMATCH = {
     MESSAGE: "Passwords does not match!"
 }
 
+PRODUCT_CATEGORY_DOES_NOT_EXIST = {
+    MESSAGE: "product category does not exist!"
+}
+
+EMPTY_PRODUCT_CATEGORIES = {
+    MESSAGE: "You don't have any product categories yet!"
+}
+
 EMPTY_PRODUCTS = {
     MESSAGE: "You don't have any products yet!"
 }
@@ -96,14 +104,26 @@ EMPTY_SERVICES = {
     MESSAGE: "You don't have any services yet!"
 }
 
+SERVICE_CATEGORY_DOES_NOT_EXIST = {
+    MESSAGE: "service category does not exist!"
+}
+
 SERVICE_DOES_NOT_EXIST = {
-    MESSAGE: "service_does_not_exist"
+    MESSAGE: "service does not exist!"
 }
 
 PRODUCT_DOES_NOT_EXIST = {
-    MESSAGE: "product_does_not_exist"
+    MESSAGE: "product does not exist!"
 }
 
-EMPTY_BLOG = {
-    MESSAGE: "You don't have any blogs yet!"
+EMPTY_ARTICLE = {
+    MESSAGE: "You don't have any articles yet!"
+}
+
+EMPTY_IMAGES = {
+    MESSAGE: "You don't have any images yet!"
+}
+
+EMPTY_VIDEOS = {
+    MESSAGE: "You don't have any videos yet!"
 }

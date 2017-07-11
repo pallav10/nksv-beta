@@ -4,7 +4,7 @@ import re
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from rest_framework import status
-from models import User, Service, Product
+from models import User, Service, Product, ProductCategory, ServiceCategory
 
 
 def email_validation(data):
@@ -54,12 +54,12 @@ def user_validation_with_email(email):
         raise exceptions_utils.ValidationException(messages.USER_WITH_EMAIL_DOES_NOT_EXISTS, status.HTTP_404_NOT_FOUND)
 
 
-def service_validation(pk):
+def product_category_validation(pk):
     try:
-        service = Service.objects.get(pk=pk)
-        return service
-    except Service.DoesNotExist:
-        raise exceptions_utils.ValidationException(messages.SERVICE_DOES_NOT_EXIST, status.HTTP_404_NOT_FOUND)
+        product_category = ProductCategory.objects.get(pk=pk)
+        return product_category
+    except ProductCategory.DoesNotExist:
+        raise exceptions_utils.ValidationException(messages.PRODUCT_CATEGORY_DOES_NOT_EXIST, status.HTTP_404_NOT_FOUND)
 
 
 def product_validation(pk):
@@ -67,4 +67,20 @@ def product_validation(pk):
         product = Product.objects.get(pk=pk)
         return product
     except Product.DoesNotExist:
+        raise exceptions_utils.ValidationException(messages.PRODUCT_DOES_NOT_EXIST, status.HTTP_404_NOT_FOUND)
+
+
+def service_category_validation(pk):
+    try:
+        service_category = ServiceCategory.objects.get(pk=pk)
+        return service_category
+    except ServiceCategory.DoesNotExist:
+        raise exceptions_utils.ValidationException(messages.SERVICE_CATEGORY_DOES_NOT_EXIST, status.HTTP_404_NOT_FOUND)
+
+
+def service_validation(pk):
+    try:
+        service = Service.objects.get(pk=pk)
+        return service
+    except Service.DoesNotExist:
         raise exceptions_utils.ValidationException(messages.SERVICE_DOES_NOT_EXIST, status.HTTP_404_NOT_FOUND)

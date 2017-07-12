@@ -35,7 +35,7 @@ class ProductCategorySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id', 'product_category', 'price', 'description', 'image', 'is_available')
+        fields = ('id', 'product_category', 'name', 'price', 'description', 'image', 'is_available')
 
 
 # serialize data of product_categories for common need of product_categories table.
@@ -49,7 +49,7 @@ class ServiceCategorySerializer(serializers.ModelSerializer):
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
-        fields = ('id', 'service_category', 'price', 'description', 'image', 'is_available')
+        fields = ('id', 'service_category', 'name', 'price', 'description', 'image', 'is_available')
 
 
 class ArticleSerializer(serializers.ModelSerializer):

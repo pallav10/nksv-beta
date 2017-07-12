@@ -66,12 +66,14 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'djcelery',
     'api',
+    'corsheaders',
     'timezone_field',
 ]
 
 MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

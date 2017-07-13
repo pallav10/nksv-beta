@@ -24,6 +24,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'state', 'country', 'is_password_changed')
 
 
+class UserResetPasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserResetPassword
+        fields = ('id', 'user', 'key', 'key_expires')
+
+
 # serialize data of product_categories for common need of product_categories table.
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:

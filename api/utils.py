@@ -8,7 +8,7 @@ from django.template.loader import get_template
 from django.conf import settings
 import messages
 from models import User, UserResetPassword
-from serializers import UserSerializer, UserProfileSerializer
+from serializers import UserSerializer, UserProfileSerializer, UserResetPasswordSerializer
 import exceptions_utils
 from rest_framework import status
 import tasks
@@ -93,18 +93,23 @@ def change_password(current_password, new_password, user):
                                                    status.HTTP_401_UNAUTHORIZED)
 
 
+def generate_key(email):
+    salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
+    key = hashlib.sha1(salt + email).hexdigest()
+    return key
+
+
 def create_reset_password_key(email):
     user = User.objects.get(email=email)
     try:
-        user_reset_password = UserResetPassword.objects.get(users_id=user.id)
+        user_reset_password = UserResetPassword.objects.get(user_id=user.id)
         user_reset_password.delete()
     except UserResetPassword.DoesNotExist:
         pass
-    salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
-    key = hashlib.sha1(salt + email).hexdigest()
+    key = generate_key(email)
     from django.utils import timezone
     key_expires = timezone.now() + datetime.timedelta(days=1)
-    user_reset_password = UserResetPassword(users=user, key=key, key_expires=key_expires)
+    user_reset_password = UserResetPassword(user=user, key=key, key_expires=key_expires)
     user_reset_password.save()
     return key
 
@@ -127,7 +132,7 @@ def send_reset_password_mail(user, key, domain):
 
 def reset_password(user_reset_password, password):
     if user_reset_password:
-        pk = user_reset_password.users_id
+        pk = user_reset_password.user_id
         user = User.objects.get(id=pk)
         user.set_password(password)
         # user.is_reset_password = True
@@ -140,7 +145,7 @@ def reset_password(user_reset_password, password):
 
 def send_welcome_mail(current_site, user_id, email):
     domain = current_site.domain
-    key = create_reset_password_key(email)
+    key = generate_key(email)
     url_body = "http://%s/api/users/%s/password_reset/confirm/%s" % (
         domain, user_id, key)
     tasks.welcome_mail.delay(url_body, settings.EMAIL_HOST_USER, email)

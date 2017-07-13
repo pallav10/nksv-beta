@@ -376,7 +376,7 @@ def password_reset(request):
 
 def password_reset_confirm(request, pk, key):
     try:
-        user_reset_password = UserResetPassword.objects.get(users_id=pk)
+        user_reset_password = UserResetPassword.objects.get(user_id=pk)
         error_message = ''
     except UserResetPassword.DoesNotExist:
         return HttpResponse(messages.USER_DOES_NOT_EXISTS)
@@ -399,7 +399,7 @@ def password_reset_confirm(request, pk, key):
 
 def password_reset_done(request, pk):
     try:
-        user_reset_password = UserResetPassword.objects.get(users_id=pk)
+        user_reset_password = UserResetPassword.objects.get(user_id=pk)
         response = ''
         success_message = ''
     except UserResetPassword.DoesNotExist:

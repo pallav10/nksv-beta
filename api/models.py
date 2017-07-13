@@ -114,13 +114,16 @@ class UserResetPassword(models.Model):
     class Meta:
         db_table = 'user_reset_password'
 
-    users = models.OneToOneField(User)
+    user = models.OneToOneField(User)
     is_valid_key = models.BooleanField(default=False)
     key = models.CharField(max_length=40, blank=True)
     key_expires = models.DateTimeField()
 
     def __unicode__(self):
-        return self.email
+        return self.user
+
+    def __repr__(self):
+        return str(self.id)
 
 
 class ProductCategory(models.Model):

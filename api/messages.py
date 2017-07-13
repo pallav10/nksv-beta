@@ -88,6 +88,10 @@ PASSWORD_MISMATCH = {
     MESSAGE: "Passwords does not match!"
 }
 
+CATEGORY_PRODUCTS_DOES_NOT_EXIST = {
+    MESSAGE: "You don't have any services in this category yet!"
+}
+
 PRODUCT_CATEGORY_DOES_NOT_EXIST = {
     MESSAGE: "product category does not exist!"
 }
@@ -106,6 +110,10 @@ EMPTY_SERVICES = {
 
 SERVICE_CATEGORY_DOES_NOT_EXIST = {
     MESSAGE: "service category does not exist!"
+}
+
+CATEGORY_SERVICES_DOES_NOT_EXIST = {
+    MESSAGE: "You don't have any services in this category yet!"
 }
 
 SERVICE_DOES_NOT_EXIST = {

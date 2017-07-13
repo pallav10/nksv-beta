@@ -495,7 +495,7 @@ def products(request, pk):
     if Product.objects.filter(product_category_id=pk).exists():  # Checks if product_category exists with given id.
         all_products = Product.objects.filter(product_category_id=pk)
     else:
-        return Response(messages.PRODUCT_CATEGORY_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
+        return Response(messages.CATEGORY_PRODUCTS_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         product_serializer = ProductSerializer(all_products, many=True)
         return Response(product_serializer.data, status=status.HTTP_200_OK)
@@ -614,7 +614,7 @@ def services(request, pk):
     if Service.objects.filter(service_category_id=pk).exists():  # Checks if service_category exists with given id.
         all_services = Service.objects.filter(service_category_id=pk)
     else:
-        return Response(messages.SERVICE_CATEGORY_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
+        return Response(messages.CATEGORY_SERVICES_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         service_serializer = ServiceSerializer(all_services, many=True)
         return Response(service_serializer.data, status=status.HTTP_200_OK)

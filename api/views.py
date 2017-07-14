@@ -763,7 +763,7 @@ def items(request, pk):
         """
 
     if Item.objects.filter(category_id=pk).exists():  # Checks if product_category exists with given id.
-        all_items = Item.objects.filter(item_type_id=pk)
+        all_items = Item.objects.filter(category_id=pk)
     else:
         return Response(messages.ITEMS_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':

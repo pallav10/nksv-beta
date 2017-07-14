@@ -19,7 +19,7 @@ urlpatterns = [
     # url(r'^service_categories/(?P<pk>[0-9]+)/$', views.services),
     # url(r'^services/(?P<pk>[0-9]+)/$', views.product_detail),
     url(r'^categories/$', views.item_categories),
-    url(r'^categories/(?P<pk>[0-9]+)$', views.categories),
+    url(r'^categories/(?P<pk>[0-9]+)/$', views.categories),
     url(r'^categories/(?P<pk>[0-9]+)/items/$', views.items),
     url(r'^articles/$', views.articles),
     url(r'^images/$', views.images),

@@ -276,7 +276,7 @@ class ItemType(models.Model):
     is_available = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return self.role_name
+        return self.name
 
 
 class Category(models.Model):
@@ -431,7 +431,7 @@ class Horoscope(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.id
+        return self.name
 
     def __repr__(self):
         return str(self.id)

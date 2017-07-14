@@ -88,8 +88,16 @@ PASSWORD_MISMATCH = {
     MESSAGE: "Passwords does not match!"
 }
 
-CATEGORY_PRODUCTS_DOES_NOT_EXIST = {
-    MESSAGE: "You don't have any services in this category yet!"
+CATEGORY_ITEM_DOES_NOT_EXIST = {
+    MESSAGE: "You don't have any product or service category yet!"
+}
+
+ITEMS_DOES_NOT_EXIST = {
+    MESSAGE: "you don't have any items yet!"
+}
+
+ITEM_DOES_NOT_EXIST = {
+    MESSAGE: "item does not exist!"
 }
 
 PRODUCT_CATEGORY_DOES_NOT_EXIST = {
@@ -98,6 +106,10 @@ PRODUCT_CATEGORY_DOES_NOT_EXIST = {
 
 EMPTY_PRODUCT_CATEGORIES = {
     MESSAGE: "You don't have any product categories yet!"
+}
+
+EMPTY_CART = {
+    MESSAGE: "You don't have any items in cart yet!"
 }
 
 EMPTY_PRODUCTS = {
@@ -134,4 +146,8 @@ EMPTY_IMAGES = {
 
 EMPTY_VIDEOS = {
     MESSAGE: "You don't have any videos yet!"
+}
+
+ADD_ITEM_TO_CART_FAILED = {
+    MESSAGE: "Item could not be added to the cart!"
 }

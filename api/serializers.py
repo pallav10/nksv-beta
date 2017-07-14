@@ -30,38 +30,62 @@ class UserResetPasswordSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'key', 'key_expires')
 
 
-# serialize data of product_categories for common need of product_categories table.
-class ProductCategorySerializer(serializers.ModelSerializer):
+# # serialize data of product_categories for common need of product_categories table.
+# class ProductCategorySerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ProductCategory
+#         fields = ('id', 'name', 'description', 'image', 'is_available')
+#
+#
+# # serialize data of categories for common need of category table.
+# class ProductSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Product
+#         fields = ('id', 'product_category', 'name', 'price', 'description', 'image', 'is_available')
+#
+#
+# # serialize data of product_categories for common need of product_categories table.
+# class ServiceCategorySerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ServiceCategory
+#         fields = ('id', 'name', 'description', 'image', 'is_available')
+#
+#
+# # serialize data of categories for common need of category table.
+# class ServiceSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Service
+#         fields = ('id', 'service_category', 'name', 'price', 'description', 'image', 'is_available')
+
+
+class ItemCategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductCategory
-        fields = ('id', 'name', 'description', 'image', 'is_available')
+        model = ItemType
+        fields = ('id', 'name')
 
 
-# serialize data of categories for common need of category table.
-class ProductSerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = ('id', 'product_category', 'name', 'price', 'description', 'image', 'is_available')
+        model = Category
+        fields = ('id', 'item_type_id', 'name', 'description', 'image', 'is_available')
 
 
-# serialize data of product_categories for common need of product_categories table.
-class ServiceCategorySerializer(serializers.ModelSerializer):
+class ItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ServiceCategory
-        fields = ('id', 'name', 'description', 'image', 'is_available')
+        model = Item
+        fields = ('id', 'category', 'name', 'description', 'image', 'price', 'is_available')
 
 
-# serialize data of categories for common need of category table.
-class ServiceSerializer(serializers.ModelSerializer):
+class CartSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Service
-        fields = ('id', 'service_category', 'name', 'price', 'description', 'image', 'is_available')
+        model = Cart
+        fields = ('id', 'user', 'item', 'quantity', 'price')
 
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ('id', 'name', 'description', 'image', 'date')
+        fields = ('id', 'name', 'description', 'image')
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -74,3 +98,9 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoGallery
         fields = ('id', 'name', 'description', 'video')
+
+
+class HoroscopeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Horoscope
+        fields = ('id', 'category', 'name', 'description', 'created')

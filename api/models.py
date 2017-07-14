@@ -126,72 +126,190 @@ class UserResetPassword(models.Model):
         return str(self.id)
 
 
-class ProductCategory(models.Model):
+# class ProductCategory(models.Model):
+#     class Meta:
+#         db_table = 'product_categories'
+#         managed = True
+#
+#     name = models.CharField(max_length=100, db_index=True)
+#     description = models.CharField(max_length=500, blank=True)
+#     image = models.ImageField(blank=True)
+#     created = models.DateTimeField(auto_now_add=True)
+#     modified = models.DateTimeField(auto_now=True)
+#     is_available = models.BooleanField(default=True)
+#     is_deleted = models.BooleanField(default=False)
+#     # slug = models.SlugField()
+#
+#     def __unicode__(self):
+#         return self.name
+#
+#
+# class Product(models.Model):
+#     class Meta:
+#         db_table = 'products'
+#         managed = True
+#
+#     product_category = models.ForeignKey(ProductCategory)
+#     name = models.CharField(max_length=200, db_index=True, unique=True)
+#     description = models.TextField(max_length=200)
+#     price = models.IntegerField()
+#     image = models.ImageField(blank=True)
+#     created = models.DateTimeField(auto_now_add=True)
+#     modified = models.DateTimeField(auto_now=True)
+#     is_available = models.BooleanField(default=True)
+#     is_deleted = models.BooleanField(default=False)
+#
+#     def __unicode__(self):
+#         return self.name
+#
+#     def __repr__(self):
+#         return str(self.id)
+#
+#
+# class ServiceCategory(models.Model):
+#     class Meta:
+#         db_table = 'service_categories'
+#         managed = True
+#
+#     name = models.CharField(max_length=100, db_index=True)
+#     description = models.CharField(max_length=500, blank=True)
+#     image = models.ImageField(blank=True)
+#     created = models.DateTimeField(auto_now_add=True)
+#     modified = models.DateTimeField(auto_now=True)
+#     is_available = models.BooleanField(default=True)
+#     is_deleted = models.BooleanField(default=False)
+#
+#     # slug = models.SlugField()
+#
+#     def __unicode__(self):
+#         return self.name
+#
+#     def __repr__(self):
+#         return str(self.id)
+#
+#
+# class Service(models.Model):
+#     class Meta:
+#         db_table = 'services'
+#         managed = True
+#
+#     service_category = models.ForeignKey(ServiceCategory)
+#     name = models.CharField(max_length=200, db_index=True, unique=True)
+#     description = models.TextField(max_length=200)
+#     price = models.IntegerField()
+#     image = models.ImageField(blank=True)
+#     created = models.DateTimeField(auto_now_add=True)
+#     modified = models.DateTimeField(auto_now=True)
+#     is_available = models.BooleanField(default=True)
+#     is_deleted = models.BooleanField(default=False)
+#
+#     def __unicode__(self):
+#         return self.name
+#
+#     def __repr__(self):
+#         return str(self.id)
+
+#
+# class Order(models.Model):
+#     class Meta:
+#         db_table = 'orders'
+#         managed = True
+#
+#     user = models.ForeignKey(User)
+#     name = models.CharField(max_length=200, blank=True)
+#     description = models.CharField(max_length=500, blank=True)
+#     paid_date = models.DateTimeField(auto_now_add=True)
+#     created = models.DateTimeField(auto_now_add=True)
+#     modified = models.DateTimeField(auto_now=True)
+#     notes = models.CharField(max_length=400, blank=True)
+#
+#     def __unicode__(self):
+#         return self.name
+#
+#     def __repr__(self):
+#         return str(self.id)
+#
+#
+# class OrderProduct(models.Model):
+#     class Meta:
+#         db_table = 'order_products'
+#         managed = True
+#
+#     order = models.ForeignKey(Order)
+#     product_category = models.ForeignKey(ProductCategory)
+#     product = models.ForeignKey(Product)
+#     quantity = models.IntegerField(default=1)
+#
+#     def __unicode__(self):
+#         return self.id
+#
+#     def __repr__(self):
+#         return str(self.id)
+#
+#
+# class OrderService(models.Model):
+#     class Meta:
+#         db_table = 'order_services'
+#         managed = True
+#
+#     order = models.ForeignKey(Order)
+#     service_category = models.ForeignKey(ServiceCategory)
+#     service = models.ForeignKey(Service)
+#     quantity = models.IntegerField(default=1)
+#
+#     def __unicode__(self):
+#         return self.id
+#
+#     def __repr__(self):
+#         return str(self.id)
+
+
+class ItemType(models.Model):
     class Meta:
-        db_table = 'product_categories'
+        db_table = 'item_type'
         managed = True
 
-    name = models.CharField(max_length=100, db_index=True)
+    TYPE_CHOICES = [('product', 'product'), ('service', 'service')]
+    name = models.CharField(max_length=20, choices=TYPE_CHOICES, blank=False)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    is_available = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self.role_name
+
+
+class Category(models.Model):
+    class Meta:
+        db_table = 'categories'
+        managed = True
+
+    item_type = models.ForeignKey(ItemType)
+    name = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=500, blank=True)
     image = models.ImageField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_available = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
-    # slug = models.SlugField()
 
     def __unicode__(self):
         return self.name
 
+    def __repr__(self):
+        return str(self.id)
 
-class Product(models.Model):
+
+class Item(models.Model):
     class Meta:
-        db_table = 'products'
+        db_table = 'items'
         managed = True
 
-    product_category = models.ForeignKey(ProductCategory)
-    name = models.CharField(max_length=200, db_index=True, unique=True)
-    description = models.TextField(max_length=200)
-    price = models.IntegerField()
-    image = models.ImageField(blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-    is_available = models.BooleanField(default=True)
-    is_deleted = models.BooleanField(default=False)
-
-    def __unicode__(self):
-        return self.name
-
-
-class ServiceCategory(models.Model):
-    class Meta:
-        db_table = 'service_categories'
-        managed = True
-
-    name = models.CharField(max_length=100, db_index=True)
+    category = models.ForeignKey(Category)
+    name = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=500, blank=True)
     image = models.ImageField(blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-    is_available = models.BooleanField(default=True)
-    is_deleted = models.BooleanField(default=False)
-
-    # slug = models.SlugField()
-
-    def __unicode__(self):
-        return self.name
-
-
-class Service(models.Model):
-    class Meta:
-        db_table = 'services'
-        managed = True
-
-    service_category = models.ForeignKey(ServiceCategory)
-    name = models.CharField(max_length=200, db_index=True, unique=True)
-    description = models.TextField(max_length=200)
-    price = models.IntegerField()
-    image = models.ImageField(blank=True)
+    price = models.ImageField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_available = models.BooleanField(default=True)
@@ -200,47 +318,25 @@ class Service(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __repr__(self):
+        return str(self.id)
 
-class Order(models.Model):
+
+class Cart(models.Model):
     class Meta:
-        db_table = 'orders'
+        db_table = 'cart'
         managed = True
-
     user = models.ForeignKey(User)
-    name = models.CharField(max_length=200, blank=True)
-    paid_date = models.DateTimeField(auto_now_add=True)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-    notes = models.CharField(max_length=400, blank=True)
-
-
-class OrderProduct(models.Model):
-    class Meta:
-        db_table = 'order_products'
-        managed = True
-
-    order = models.ForeignKey(Order)
-    product_category = models.ForeignKey(ProductCategory)
-    product = models.ForeignKey(Product)
+    item = models.ForeignKey(Item)
     quantity = models.IntegerField(default=1)
+    price = models.ImageField()
 
+    def __unicode__(self):
+        return self.id
 
-class OrderService(models.Model):
-    class Meta:
-        db_table = 'order_services'
-        managed = True
+    def __repr__(self):
+        return str(self.id)
 
-    order = models.ForeignKey(Order)
-    service_category = models.ForeignKey(ServiceCategory)
-    service = models.ForeignKey(Service)
-    quantity = models.IntegerField(default=1)
-
-
-class CartItem(models.Model):
-    class Meta:
-        db_table = 'cart_items'
-        managed = True
-    pass
 
 # def image_upload_to(instance, filename):
 #     title = instance.product.product_title
@@ -266,7 +362,6 @@ class CartItem(models.Model):
 #     def __unicode__(self):
 #         return self.appointment_name
 
-
 class Article(models.Model):
     class Meta:
         db_table = 'articles'
@@ -279,7 +374,10 @@ class Article(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.blog_name
+        return self.name
+
+    def __repr__(self):
+        return str(self.id)
 
 
 class ImageGallery(models.Model):
@@ -290,6 +388,12 @@ class ImageGallery(models.Model):
     image = models.ImageField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def __repr__(self):
+        return str(self.id)
 
 
 class VideoGallery(models.Model):
@@ -303,6 +407,12 @@ class VideoGallery(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return self.name
+
+    def __repr__(self):
+        return str(self.id)
+
 
 class Horoscope(models.Model):
     class Meta:
@@ -310,7 +420,7 @@ class Horoscope(models.Model):
         managed = True
 
     CATEGORY_CHOICES = [('daily', 'daily'), ('weekly', 'weekly'), ('yearly', 'yearly')]
-    status = models.CharField(max_length=20, choices=CATEGORY_CHOICES, blank=False, default='waiting')
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, blank=False, default='daily')
     HOROSCOPE_CHOICES = [('Aries', 'Aries'), ('Taurus', 'Taurus'), ('Gemini', 'Gemini'), ('Cancer', 'Cancer'),
                          ('Leo', 'Leo'), ('Virgo', 'Virgo'), ('Libra', 'Libra'), ('Scorpio', 'Scorpio'),
                          ('Sagittarius', 'Sagittarius'), ('Capricorn', 'Capricorn'), ('Aquarius', 'Aquarius'),
@@ -319,6 +429,12 @@ class Horoscope(models.Model):
     description = models.CharField(max_length=500)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.id
+
+    def __repr__(self):
+        return str(self.id)
 
 # class ChildNameClients(models.Model):
 #     class Meta:

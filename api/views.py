@@ -19,11 +19,11 @@ import utils
 import validations_utils
 from exceptions_utils import ValidationException
 from forms import ResetPasswordForm
-from models import UserResetPassword, Product, ProductCategory, ServiceCategory, Service, Article, ImageGallery, \
-    VideoGallery
+from models import UserResetPassword, Article, ImageGallery, \
+    VideoGallery, Category, ItemType, Item, Cart, Horoscope
 from permission import UserPermissions
-from serializers import UserProfileSerializer, ProductSerializer, ProductCategorySerializer, \
-    ServiceCategorySerializer, ServiceSerializer, ArticleSerializer, ImageSerializer, VideoSerializer
+from serializers import UserProfileSerializer, ArticleSerializer, ImageSerializer, VideoSerializer, CategorySerializer, \
+    ItemCategorySerializer, ItemSerializer, CartSerializer
 
 
 # Create your views here.
@@ -423,10 +423,283 @@ def password_reset_done(request, pk):
          'success_message': success_message}
     )
 
+#
+# @api_view(['GET'])
+# @permission_classes((AllowAny,))
+# def product_categories(request):
+#     """
+#         **Get all the product_categories data- Ignore**
+#
+#         > GET
+#
+#         Returns the product_categories data.
+#
+#         * Possible HTTP status codes and JSON response:
+#
+#             * `HTTP_200_OK` - Returns the products data:
+#
+#                     {
+#                       "id": Integer,
+#                       "name": String,
+#                       "description": String,
+#                       "image": Url,
+#                       "is_available": Boolean
+#                     }
+#
+#             * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+#
+#             :param request:
+#         """
+#     all_product_categories = ProductCategory.objects.all()  # Get all product_categories
+#     if request.method == 'GET':
+#         if all_product_categories:
+#             product_category_serializer = ProductCategorySerializer(all_product_categories, many=True)
+#             return Response(product_category_serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             return Response(messages.EMPTY_PRODUCT_CATEGORIES, status=status.HTTP_204_NO_CONTENT)
+
+#
+# @api_view(['GET'])
+# @permission_classes((AllowAny,))
+# def products(request, pk):
+#     """
+#
+#         **Get the product data- Ignore**
+#
+#         > GET
+#
+#         Returns the Product data.
+#
+#         * Requires `product id` which is an integer and taken as primary key
+#         to identify product.
+#
+#         * Possible HTTP status codes and JSON response:
+#
+#             * `HTTP_200_OK` - Returns the product data:
+#
+#                     {
+#                       "id": Integer,
+#                       "product_name": String,
+#                       "product_category": String,
+#                       "product_price": String,
+#                       "product_description": String,
+#                       "product_image": Url,
+#                       "is_available": Boolean
+#                     }
+#
+#             * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+#
+#             :param pk:
+#             :param request:
+#         """
+#     if Product.objects.filter(product_category_id=pk).exists():  # Checks if product_category exists with given id.
+#         all_products = Product.objects.filter(product_category_id=pk)
+#     else:
+#         return Response(messages.CATEGORY_PRODUCTS_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
+#     if request.method == 'GET':
+#         product_serializer = ProductSerializer(all_products, many=True)
+#         return Response(product_serializer.data, status=status.HTTP_200_OK)
+#
+#
+# @api_view(['GET'])
+# @permission_classes((AllowAny,))
+# def product_detail(request, pk):
+#     """
+#
+#         **Get the product data- Ignore**
+#
+#         > GET
+#
+#         Returns the Product data.
+#
+#         * Requires `product id` which is an integer and taken as primary key
+#         to identify product.
+#
+#         * Possible HTTP status codes and JSON response:
+#
+#             * `HTTP_200_OK` - Returns the product data:
+#
+#                     {
+#                       "id": Integer,
+#                       "product_name": String,
+#                       "product_category": String,
+#                       "product_price": String,
+#                       "product_description": String,
+#                       "product_image": Url,
+#                       "is_available": Boolean
+#                     }
+#
+#             * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+#
+#             :param pk:
+#             :param request:
+#         """
+#     try:
+#         product = validations_utils.product_validation(pk)  # Validates if product exists or not.
+#     except ValidationException as e:  # Generic exception
+#         return Response(e.errors, status=e.status)
+#     if request.method == 'GET':
+#         product_serializer = ProductSerializer(product)
+#         return Response(product_serializer.data, status=status.HTTP_200_OK)
+#
+#
+# @api_view(['GET'])
+# @permission_classes((AllowAny,))
+# def service_categories(request):
+#     """
+#         **Get all the product_categories data- Ignore**
+#
+#         > GET
+#
+#         Returns the product_categories data.
+#
+#         * Possible HTTP status codes and JSON response:
+#
+#             * `HTTP_200_OK` - Returns the products data:
+#
+#                     {
+#                       "id": Integer,
+#                       "name": String,
+#                       "description": String,
+#                       "image": Url,
+#                       "is_available": Boolean
+#                     }
+#
+#             * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+#
+#             :param request:
+#         """
+#     all_service_categories = ServiceCategory.objects.all()  # Get all service_categories
+#     if request.method == 'GET':
+#         if all_service_categories:
+#             service_category_serializer = ServiceCategorySerializer(all_service_categories, many=True)
+#             return Response(service_category_serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             return Response(messages.EMPTY_PRODUCT_CATEGORIES, status=status.HTTP_204_NO_CONTENT)
+#
+#
+# @api_view(['GET'])
+# @permission_classes((AllowAny,))
+# def services(request, pk):
+#     """
+#
+#         **Get the product data- Ignore**
+#
+#         > GET
+#
+#         Returns the Product data.
+#
+#         * Requires `product id` which is an integer and taken as primary key
+#         to identify product.
+#
+#         * Possible HTTP status codes and JSON response:
+#
+#             * `HTTP_200_OK` - Returns the product data:
+#
+#                     {
+#                       "id": Integer,
+#                       "product_name": String,
+#                       "product_category": String,
+#                       "product_price": String,
+#                       "product_description": String,
+#                       "product_image": Url,
+#                       "is_available": Boolean
+#                     }
+#
+#             * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+#
+#             :param pk:
+#             :param request:
+#         """
+#     if Service.objects.filter(service_category_id=pk).exists():  # Checks if service_category exists with given id.
+#         all_services = Service.objects.filter(service_category_id=pk)
+#     else:
+#         return Response(messages.CATEGORY_SERVICES_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
+#     if request.method == 'GET':
+#         service_serializer = ServiceSerializer(all_services, many=True)
+#         return Response(service_serializer.data, status=status.HTTP_200_OK)
+#
+#
+# @api_view(['GET'])
+# @permission_classes((AllowAny,))
+# def service_detail(request, pk):
+#     """
+#
+#         **Get the product data- Ignore**
+#
+#         > GET
+#
+#         Returns the Product data.
+#
+#         * Requires `product id` which is an integer and taken as primary key
+#         to identify product.
+#
+#         * Possible HTTP status codes and JSON response:
+#
+#             * `HTTP_200_OK` - Returns the product data:
+#
+#                     {
+#                       "id": Integer,
+#                       "product_name": String,
+#                       "product_category": String,
+#                       "product_price": String,
+#                       "product_description": String,
+#                       "product_image": Url,
+#                       "is_available": Boolean
+#                     }
+#
+#             * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+#
+#             :param pk:
+#             :param request:
+#         """
+#     try:
+#         service = validations_utils.service_validation(pk)  # Validates if user exists or not.
+#     except ValidationException as e:  # Generic exception
+#         return Response(e.errors, status=e.status)
+#     if request.method == 'GET':
+#         service_serializer = ServiceSerializer(service)
+#         return Response(service_serializer.data, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 @permission_classes((AllowAny,))
-def product_categories(request):
+def item_categories(request):
+    """
+            **Get all the product_categories data- Ignore**
+
+            > GET
+
+            Returns the product_categories data.
+
+            * Possible HTTP status codes and JSON response:
+
+                * `HTTP_200_OK` - Returns the products data:
+
+                        {
+                          "id": Integer,
+                          "name": String,
+                          "description": String,
+                          "image": Url,
+                          "is_available": Boolean
+                        }
+
+                * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+
+                :param request:
+            """
+    all_item_categories = ItemType.objects.all()  # Get all product_categories
+    if request.method == 'GET':
+        if all_item_categories:
+            item_category_serializer = ItemCategorySerializer(all_item_categories, many=True)
+            return Response(item_category_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(messages.EMPTY_PRODUCT_CATEGORIES, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+@permission_classes((AllowAny,))
+def categories(request, pk):
     """
         **Get all the product_categories data- Ignore**
 
@@ -448,104 +721,21 @@ def product_categories(request):
 
             * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
 
-            :param request:
-        """
-    all_product_categories = ProductCategory.objects.all()  # Get all product_categories
-    if request.method == 'GET':
-        if all_product_categories:
-            product_category_serializer = ProductCategorySerializer(all_product_categories, many=True)
-            return Response(product_category_serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(messages.EMPTY_PRODUCT_CATEGORIES, status=status.HTTP_204_NO_CONTENT)
-
-
-@api_view(['GET'])
-@permission_classes((AllowAny,))
-def products(request, pk):
-    """
-
-        **Get the product data- Ignore**
-
-        > GET
-
-        Returns the Product data.
-
-        * Requires `product id` which is an integer and taken as primary key
-        to identify product.
-
-        * Possible HTTP status codes and JSON response:
-
-            * `HTTP_200_OK` - Returns the product data:
-
-                    {
-                      "id": Integer,
-                      "product_name": String,
-                      "product_category": String,
-                      "product_price": String,
-                      "product_description": String,
-                      "product_image": Url,
-                      "is_available": Boolean
-                    }
-
-            * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
-
             :param pk:
             :param request:
         """
-    if Product.objects.filter(product_category_id=pk).exists():  # Checks if product_category exists with given id.
-        all_products = Product.objects.filter(product_category_id=pk)
+    if Category.objects.filter(item_type_id=pk).exists():  # Checks if product_category exists with given id.
+        all_categories = Category.objects.filter(item_type_id=pk)
     else:
-        return Response(messages.CATEGORY_PRODUCTS_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
+        return Response(messages.CATEGORY_ITEM_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        product_serializer = ProductSerializer(all_products, many=True)
-        return Response(product_serializer.data, status=status.HTTP_200_OK)
+        category_serializer = CategorySerializer(all_categories, many=True)
+        return Response(category_serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 @permission_classes((AllowAny,))
-def product_detail(request, pk):
-    """
-
-        **Get the product data- Ignore**
-
-        > GET
-
-        Returns the Product data.
-
-        * Requires `product id` which is an integer and taken as primary key
-        to identify product.
-
-        * Possible HTTP status codes and JSON response:
-
-            * `HTTP_200_OK` - Returns the product data:
-
-                    {
-                      "id": Integer,
-                      "product_name": String,
-                      "product_category": String,
-                      "product_price": String,
-                      "product_description": String,
-                      "product_image": Url,
-                      "is_available": Boolean
-                    }
-
-            * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
-
-            :param pk:
-            :param request:
-        """
-    try:
-        product = validations_utils.product_validation(pk)  # Validates if product exists or not.
-    except ValidationException as e:  # Generic exception
-        return Response(e.errors, status=e.status)
-    if request.method == 'GET':
-        product_serializer = ProductSerializer(product)
-        return Response(product_serializer.data, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
-@permission_classes((AllowAny,))
-def service_categories(request):
+def items(request, pk):
     """
         **Get all the product_categories data- Ignore**
 
@@ -567,99 +757,122 @@ def service_categories(request):
 
             * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
 
+            :param pk:
             :param request:
         """
-    all_service_categories = ServiceCategory.objects.all()  # Get all service_categories
+
+    if Item.objects.filter(category_id=pk).exists():  # Checks if product_category exists with given id.
+        all_items = Item.objects.filter(item_type_id=pk)
+    else:
+        return Response(messages.ITEMS_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        if all_service_categories:
-            service_category_serializer = ServiceCategorySerializer(all_service_categories, many=True)
-            return Response(service_category_serializer.data, status=status.HTTP_200_OK)
+        item_serializer = ItemSerializer(all_items, many=True)
+        return Response(item_serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes((UserPermissions, IsAuthenticated))
+def add_to_cart(request, pk, key):
+    """
+    **add a new item to cart- Ignore**
+
+    * Accepts only POST requests
+dd
+    > POST
+
+    * Requires following fields of users in JSON format:
+
+        - Sign Up with Email
+
+            1. `email` - Valid email address
+            2. `password` - String
+
+
+    * Possible HTTP status codes and JSON response:
+
+        * `HTTP_201_CREATED` - When new user registration is done successfully:
+
+                {
+                      "first_name": null or string,
+                      "last_name": null or string,
+                      "created": date_timestamp,
+                      "contact_no": integer,
+                      "token": "token string",
+                      "user_role": integer,
+                      "email": string
+                }
+
+        * `HTTP_400_BAD_REQUEST` :
+
+            - Email already used to register one user.
+            Use a different email address
+
+                {
+                 "message": "User with this email already exists."
+                }
+
+        * `HTTP_400_BAD_REQUEST` - Invalid email address
+
+                {
+                    "message": "Enter a valid email address."
+                }
+
+        * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+
+    * Status code can be used from HTTP header. A separate status field in json
+    data is not provided.
+    :param key:
+    :param pk:
+    :param request:
+
+    """
+    if request.method == 'POST':
+        try:
+            with transaction.atomic():
+                try:
+                    validations_utils.user_validation(pk)
+                    data = validations_utils.item_validation(key)  # Validates item id, it returns the data.
+                    data = utils.add_item_to_cart(data)  # Creates user with request data.
+                    return Response(data, status=status.HTTP_201_CREATED)
+                except ValidationException as e:  # Generic exception
+                    return Response(e.errors, status=e.status)
+        except IntegrityError:
+            return Response(messages.ADD_ITEM_TO_CART_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes((UserPermissions, IsAuthenticated))
+def cart(request):
+    """
+            **Get all the product_categories data- Ignore**
+
+            > GET
+
+            Returns the product_categories data.
+
+            * Possible HTTP status codes and JSON response:
+
+                * `HTTP_200_OK` - Returns the products data:
+
+                        {
+                          "id": Integer,
+                          "name": String,
+                          "description": String,
+                          "image": Url,
+                          "is_available": Boolean
+                        }
+
+                * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+
+                :param request:
+            """
+    all_cart_items = Cart.objects.all()  # Get all product_categories
+    if request.method == 'GET':
+        if all_cart_items:
+            cart_serializer = CartSerializer(all_cart_items, many=True)
+            return Response(cart_serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(messages.EMPTY_PRODUCT_CATEGORIES, status=status.HTTP_204_NO_CONTENT)
-
-
-@api_view(['GET'])
-@permission_classes((AllowAny,))
-def services(request, pk):
-    """
-
-        **Get the product data- Ignore**
-
-        > GET
-
-        Returns the Product data.
-
-        * Requires `product id` which is an integer and taken as primary key
-        to identify product.
-
-        * Possible HTTP status codes and JSON response:
-
-            * `HTTP_200_OK` - Returns the product data:
-
-                    {
-                      "id": Integer,
-                      "product_name": String,
-                      "product_category": String,
-                      "product_price": String,
-                      "product_description": String,
-                      "product_image": Url,
-                      "is_available": Boolean
-                    }
-
-            * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
-
-            :param pk:
-            :param request:
-        """
-    if Service.objects.filter(service_category_id=pk).exists():  # Checks if service_category exists with given id.
-        all_services = Service.objects.filter(service_category_id=pk)
-    else:
-        return Response(messages.CATEGORY_SERVICES_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
-    if request.method == 'GET':
-        service_serializer = ServiceSerializer(all_services, many=True)
-        return Response(service_serializer.data, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
-@permission_classes((AllowAny,))
-def service_detail(request, pk):
-    """
-
-        **Get the product data- Ignore**
-
-        > GET
-
-        Returns the Product data.
-
-        * Requires `product id` which is an integer and taken as primary key
-        to identify product.
-
-        * Possible HTTP status codes and JSON response:
-
-            * `HTTP_200_OK` - Returns the product data:
-
-                    {
-                      "id": Integer,
-                      "product_name": String,
-                      "product_category": String,
-                      "product_price": String,
-                      "product_description": String,
-                      "product_image": Url,
-                      "is_available": Boolean
-                    }
-
-            * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
-
-            :param pk:
-            :param request:
-        """
-    try:
-        service = validations_utils.service_validation(pk)  # Validates if user exists or not.
-    except ValidationException as e:  # Generic exception
-        return Response(e.errors, status=e.status)
-    if request.method == 'GET':
-        service_serializer = ServiceSerializer(service)
-        return Response(service_serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -694,5 +907,17 @@ def videos(request):
         if all_videos:
             video_serializer = VideoSerializer(all_videos, many=True)
             return Response(video_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(messages.EMPTY_VIDEOS, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+@permission_classes((AllowAny,))
+def horoscope(request):
+    all_horoscopes = Horoscope.objects.all()  # Get all videos
+    if request.method == 'GET':
+        if all_horoscopes:
+            horoscope_serializer = HoroscopeSerializer(all_horoscopes, many=True)
+            return Response(horoscope_serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(messages.EMPTY_VIDEOS, status=status.HTTP_204_NO_CONTENT)

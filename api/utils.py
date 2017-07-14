@@ -8,7 +8,7 @@ from django.template.loader import get_template
 from django.conf import settings
 import messages
 from models import User, UserResetPassword
-from serializers import UserSerializer, UserProfileSerializer, UserResetPasswordSerializer
+from serializers import UserSerializer, UserProfileSerializer, UserResetPasswordSerializer, CartSerializer
 import exceptions_utils
 from rest_framework import status
 import tasks
@@ -150,3 +150,14 @@ def send_welcome_mail(current_site, user_id, email):
         domain, user_id, key)
     tasks.welcome_mail.delay(url_body, settings.EMAIL_HOST_USER, email)
     pass
+
+
+def add_item_to_cart(data):
+    cart_serializer = CartSerializer(data=data)
+    if cart_serializer.is_valid():
+        cart_item = cart_serializer.save()
+        keys = ['id', 'user', 'item', 'quantity', 'price']  # data that we want to return as JSON response
+        custom_response = {k: v for k, v in cart_serializer.data.iteritems() if k in keys}
+        return custom_response
+    else:
+        raise exceptions_utils.ValidationException(cart_serializer.errors, status.HTTP_400_BAD_REQUEST)

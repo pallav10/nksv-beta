@@ -309,7 +309,7 @@ class Item(models.Model):
     name = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=500, blank=True)
     image = models.ImageField(blank=True)
-    price = models.ImageField()
+    price = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_available = models.BooleanField(default=True)
@@ -329,7 +329,7 @@ class Cart(models.Model):
     user = models.ForeignKey(User)
     item = models.ForeignKey(Item)
     quantity = models.IntegerField(default=1)
-    price = models.ImageField()
+    price = models.IntegerField()
 
     def __unicode__(self):
         return self.id

@@ -67,7 +67,7 @@ class ItemCategorySerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('id', 'item_type_id', 'name', 'description', 'image', 'is_available')
+        fields = ('id', 'item_type', 'name', 'description', 'image', 'is_available')
 
 
 class ItemSerializer(serializers.ModelSerializer):

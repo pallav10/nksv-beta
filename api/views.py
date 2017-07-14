@@ -23,7 +23,7 @@ from models import UserResetPassword, Article, ImageGallery, \
     VideoGallery, Category, ItemType, Item, Cart, Horoscope
 from permission import UserPermissions
 from serializers import UserProfileSerializer, ArticleSerializer, ImageSerializer, VideoSerializer, CategorySerializer, \
-    ItemCategorySerializer, ItemSerializer, CartSerializer
+    ItemCategorySerializer, ItemSerializer, CartSerializer, HoroscopeSerializer
 
 
 # Create your views here.
@@ -730,7 +730,8 @@ def categories(request, pk):
         return Response(messages.CATEGORY_ITEM_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         category_serializer = CategorySerializer(all_categories, many=True)
-        return Response(category_serializer.data, status=status.HTTP_200_OK)
+
+        return Response(category_serializer.data[::-1], status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -767,7 +768,7 @@ def items(request, pk):
         return Response(messages.ITEMS_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         item_serializer = ItemSerializer(all_items, many=True)
-        return Response(item_serializer.data, status=status.HTTP_200_OK)
+        return Response(item_serializer.data[::-1], status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

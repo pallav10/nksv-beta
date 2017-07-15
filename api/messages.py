@@ -151,3 +151,23 @@ EMPTY_VIDEOS = {
 ADD_ITEM_TO_CART_FAILED = {
     MESSAGE: "Item could not be added to the cart!"
 }
+
+UPDATE_ITEM_TO_CART_FAILED = {
+    MESSAGE: "Item could not be updated in the cart!"
+}
+
+CART_ITEM_DOES_NOT_EXIST = {
+    MESSAGE: "There is no such item in cart!"
+}
+
+CAN_NOT_RESET_PASSWORD = {
+    MESSAGE: "server issue! Could not reset your password! "
+}
+
+DELETE_ITEM_TO_CART_FAILED = {
+    MESSAGE: "server issue! Could not remove the cart item!"
+}
+
+CART_ITEM_SUCCESSFULLY_DELETED = {
+    MESSAGE: "cart item successfully deleted!"
+}

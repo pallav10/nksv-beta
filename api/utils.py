@@ -7,7 +7,7 @@ from rest_framework.authtoken.models import Token
 from django.template.loader import get_template
 from django.conf import settings
 import messages
-from models import User, UserResetPassword
+from models import User, UserResetPassword, Cart
 from serializers import UserSerializer, UserProfileSerializer, UserResetPasswordSerializer, CartSerializer
 import exceptions_utils
 from rest_framework import status
@@ -60,6 +60,15 @@ def update_user(data, user):
         raise exceptions_utils.ValidationException(user_serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
+def update_cart_item(data, cart):
+    cart_serializer = CartSerializer(data=data, instance=cart)
+    if cart_serializer.is_valid():
+        cart_serializer.save()
+        return cart_serializer.data
+    else:
+        raise exceptions_utils.ValidationException(cart_serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+
 def authenticate_user(user, data):
     if user:
         token = fetch_token(user)
@@ -103,7 +112,7 @@ def create_reset_password_key(email):
     user = User.objects.get(email=email)
     try:
         user_reset_password = UserResetPassword.objects.get(user_id=user.id)
-        user_reset_password.delete()
+        # user_reset_password.delete()
     except UserResetPassword.DoesNotExist:
         pass
     key = generate_key(email)

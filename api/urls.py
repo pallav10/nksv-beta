@@ -10,14 +10,16 @@ urlpatterns = [
     url(r'^password_reset/$', views.password_reset),
     url(r'^users/(?P<pk>[0-9]+)/password_reset/done/$', views.password_reset_done),
     url(r'^users/(?P<pk>[0-9]+)/password_reset/confirm/(?P<key>\w+)/$', views.password_reset_confirm),
-    url(r'^users/(?P<pk>[0-9]+)/cart/(?P<key>\w+)/$', views.add_to_cart),
-    url(r'^cart/$', views.cart),
+    url(r'^users/(?P<pk>[0-9]+)/cart/(?P<key>\w+)/$', views.cart),
+    url(r'^users/(?P<pk>[0-9]+)/cart/$', views.cart_detail),
+
     # url(r'^product_categories/$', views.product_categories),
     # url(r'^product_categories/(?P<pk>[0-9]+)/$', views.products),
     # url(r'^products/(?P<pk>[0-9]+)/$', views.product_detail),
     # url(r'^service_categories/$', views.service_categories),
     # url(r'^service_categories/(?P<pk>[0-9]+)/$', views.services),
     # url(r'^services/(?P<pk>[0-9]+)/$', views.product_detail),
+
     url(r'^categories/$', views.item_categories),
     url(r'^categories/(?P<pk>[0-9]+)/$', views.categories),
     url(r'^categories/(?P<pk>[0-9]+)/items/$', views.items),

@@ -192,7 +192,6 @@ def user_detail(request, pk):
         return Response(user_profile_serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'PUT':
         try:
-            data['email'] = user.email
             data = validations_utils.email_validation(data)  # Validates email id, it returns lower-cased email in data.
             updated_data = utils.update_user(data, user)  # Updates user data.
             return Response(updated_data, status=status.HTTP_200_OK)
@@ -362,16 +361,20 @@ def password_reset(request):
     :param request:
     """
     try:
-        data = request.data
-        data = validations_utils.email_validation(data)  # Validates email id, it returns lower-cased email in data.
-        user = validations_utils.user_validation_with_email(data['email'])
-    except ValidationException as e:  # Generic exception
-        return Response(e.errors, status=e.status)
-    current_site = get_current_site(request)
-    domain = current_site.domain
-    key = utils.create_reset_password_key(user.email)
-    utils.send_reset_password_mail(user, key, domain)  # Sends an email for resetting the password.
-    return Response(messages.PASSWORD_RESET_LINK_SENT, status=status.HTTP_200_OK)
+        with transaction.atomic():
+            try:
+                data = request.data
+                data = validations_utils.email_validation(data)  # Validates email id, it returns lower-cased email in data.
+                user = validations_utils.user_validation_with_email(data['email'])
+            except ValidationException as e:  # Generic exception
+                return Response(e.errors, status=e.status)
+            current_site = get_current_site(request)
+            domain = current_site.domain
+            key = utils.create_reset_password_key(user.email)
+            utils.send_reset_password_mail(user, key, domain)  # Sends an email for resetting the password.
+            return Response(messages.PASSWORD_RESET_LINK_SENT, status=status.HTTP_200_OK)
+    except IntegrityError:
+        return Response(messages.CAN_NOT_RESET_PASSWORD, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 def password_reset_confirm(request, pk, key):
@@ -771,9 +774,9 @@ def items(request, pk):
         return Response(item_serializer.data[::-1], status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'PUT', 'DELETE'])
 @permission_classes((UserPermissions, IsAuthenticated))
-def add_to_cart(request, pk, key):
+def cart(request, pk, key):
     """
     **add a new item to cart- Ignore**
 
@@ -827,11 +830,17 @@ dd
     :param request:
 
     """
+    data = request.data
+    try:
+        user = validations_utils.user_validation(pk)  # Validates if user exists or not.
+        token_user_id = validations_utils.user_token_validation(
+            request.auth.user_id, pk)  # Validates user's Token authentication.
+    except ValidationException as e:  # Generic exception
+        return Response(e.errors, status=e.status)
     if request.method == 'POST':
         try:
             with transaction.atomic():
                 try:
-                    validations_utils.user_validation(pk)
                     data = validations_utils.item_validation(key)  # Validates item id, it returns the data.
                     data = utils.add_item_to_cart(data)  # Creates user with request data.
                     return Response(data, status=status.HTTP_201_CREATED)
@@ -840,10 +849,36 @@ dd
         except IntegrityError:
             return Response(messages.ADD_ITEM_TO_CART_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    elif request.method == 'PUT':
+        try:
+            with transaction.atomic():
+                try:
+                    cart_item = validations_utils.cart_item_validation(key)
+                    updated_data = utils.update_cart_item(data, cart_item)  # Updates cart data.
+                    return Response(updated_data, status=status.HTTP_200_OK)
+                except ValidationException as e:  # Generic exception
+                    return Response(e.errors, status=e.status)
+        except IntegrityError:
+            return Response(messages.UPDATE_ITEM_TO_CART_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    elif request.method == 'DELETE':
+        try:
+            with transaction.atomic():
+                try:
+                    cart_item = validations_utils.cart_item_validation(key)
+                    if cart_item:
+                        cart_item = Cart.objects.get(pk=key)
+                        cart_item.delete()
+                        return Response(messages.CART_ITEM_SUCCESSFULLY_DELETED, status=status.HTTP_200_OK)
+                except ValidationException as e:  # Generic exception
+                    return Response(e.errors, status=e.status)
+        except IntegrityError:
+            return Response(messages.DELETE_ITEM_TO_CART_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(['GET'])
 @permission_classes((UserPermissions, IsAuthenticated))
-def cart(request):
+def cart_detail(request, pk):
     """
             **Get all the product_categories data- Ignore**
 
@@ -865,15 +900,27 @@ def cart(request):
 
                 * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
 
+                :param pk:
                 :param request:
             """
-    all_cart_items = Cart.objects.all()  # Get all product_categories
+    data = request.data
+    try:
+        user = validations_utils.user_validation(pk)  # Validates if user exists or not.
+        token_user_id = validations_utils.user_token_validation(
+            request.auth.user_id, pk)  # Validates user's Token authentication.
+    except ValidationException as e:  # Generic exception
+        return Response(e.errors, status=e.status)
+
     if request.method == 'GET':
-        if all_cart_items:
-            cart_serializer = CartSerializer(all_cart_items, many=True)
-            return Response(cart_serializer.data, status=status.HTTP_200_OK)
+        if Cart.objects.filter(user_id=pk).exists():  # Checks if product_category exists with given id.
+            cart_items = Cart.objects.filter(user_id=pk)
         else:
-            return Response(messages.EMPTY_PRODUCT_CATEGORIES, status=status.HTTP_204_NO_CONTENT)
+            return Response(messages.ITEMS_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
+        if cart_items:
+            cart_serializer = CartSerializer(cart_items, many=True)
+            return Response(cart_serializer.data[::-1], status=status.HTTP_200_OK)
+        else:
+            return Response(messages.EMPTY_CART, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])

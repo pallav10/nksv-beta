@@ -231,11 +231,20 @@ CORS_ALLOW_METHODS = (
     'OPTIONS'
 )
 CORS_ALLOW_HEADERS = (
-    'x-requested-with',
-    'content-type',
-    'accept',
-    'origin',
+'accept',
+    'accept-encoding',
     'authorization',
-    'x-csrftoken'
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'accept',
 )
 CORS_ALLOW_CREDENTIALS = False
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8000',
+    '127.0.0.1:8080'
+)

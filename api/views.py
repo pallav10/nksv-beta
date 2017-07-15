@@ -116,7 +116,7 @@ dd
             return Response(messages.USER_REGISTRATION_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT', 'OPTIONS'])
 @permission_classes((UserPermissions, IsAuthenticated))
 def user_detail(request, pk):
     """
@@ -190,7 +190,7 @@ def user_detail(request, pk):
     if request.method == 'GET':
         user_profile_serializer = UserProfileSerializer(user)
         return Response(user_profile_serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'PUT':
+    elif request.method == 'PUT' or request.method == 'OPTIONS':
         try:
             data['email'] = user.email
             data = validations_utils.email_validation(data)  # Validates email id, it returns lower-cased email in data.

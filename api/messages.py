@@ -92,9 +92,6 @@ CATEGORY_ITEM_DOES_NOT_EXIST = {
     MESSAGE: "You don't have any product or service category yet!"
 }
 
-ITEMS_DOES_NOT_EXIST = {
-    MESSAGE: "you don't have any items yet!"
-}
 
 ITEM_DOES_NOT_EXIST = {
     MESSAGE: "item does not exist!"

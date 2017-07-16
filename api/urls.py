@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^users/(?P<pk>[0-9]+)/password_reset/confirm/(?P<key>\w+)/$', views.password_reset_confirm),
     url(r'^users/(?P<pk>[0-9]+)/cart/(?P<key>\w+)/$', views.cart),
     url(r'^users/(?P<pk>[0-9]+)/cart/$', views.cart_detail),
+    url(r'^cart/(?P<pk>[0-9]+)/$', views.update_cart_detail),
+
 
     # url(r'^product_categories/$', views.product_categories),
     # url(r'^product_categories/(?P<pk>[0-9]+)/$', views.products),

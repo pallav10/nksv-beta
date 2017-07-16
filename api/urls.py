@@ -14,7 +14,6 @@ urlpatterns = [
     url(r'^users/(?P<pk>[0-9]+)/cart/$', views.cart_detail),
     url(r'^cart/(?P<pk>[0-9]+)/$', views.update_cart_detail),
 
-
     # url(r'^product_categories/$', views.product_categories),
     # url(r'^product_categories/(?P<pk>[0-9]+)/$', views.products),
     # url(r'^products/(?P<pk>[0-9]+)/$', views.product_detail),
@@ -25,7 +24,9 @@ urlpatterns = [
     url(r'^categories/$', views.item_categories),
     url(r'^categories/(?P<pk>[0-9]+)/$', views.categories),
     url(r'^categories/(?P<pk>[0-9]+)/items/$', views.items),
+    url(r'^items/(?P<pk>[0-9]+)/$', views.item_detail),
     url(r'^articles/$', views.articles),
     url(r'^images/$', views.images),
     url(r'^videos/$', views.videos),
+    url(r'^horoscope/$', views.horoscope),
 ]

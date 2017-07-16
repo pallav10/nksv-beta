@@ -93,6 +93,10 @@ CATEGORY_ITEM_DOES_NOT_EXIST = {
 }
 
 
+ITEMS_DOES_NOT_EXIST = {
+    MESSAGE: "There are no items!"
+}
+
 ITEM_DOES_NOT_EXIST = {
     MESSAGE: "item does not exist!"
 }
@@ -143,6 +147,10 @@ EMPTY_IMAGES = {
 
 EMPTY_VIDEOS = {
     MESSAGE: "You don't have any videos yet!"
+}
+
+EMPTY_HOROSCOPE = {
+    MESSAGE: "You don't have any horoscope yet!"
 }
 
 ADD_ITEM_TO_CART_FAILED = {

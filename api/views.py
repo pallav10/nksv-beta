@@ -774,6 +774,81 @@ def items(request, pk):
         return Response(item_serializer.data[::-1], status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+@permission_classes((AllowAny,))
+def item_detail(request, pk):
+    """
+    **Get or change the user profile data- Ignore**
+
+    > GET
+
+    Returns the User Profile data.
+
+    * Requires `user id` which is an integer and taken as primary key
+    to identify user.
+
+    * Possible HTTP status codes and JSON response:
+
+        * `HTTP_200_OK` - Returns the User Profile data:
+
+                {
+                  "email": String,
+                  "id": Integer,
+                  "first_name": String,
+                  "last_name": String,
+                  "created": String,
+                  "contact_no": Integer
+                }
+
+        * `HTTP_500_INTERNAL_SERVER_ERROR` - Internal server error
+
+
+
+    > PUT
+
+    ### Update User Profile Data
+
+    * Requires data that needs to be changed. Any and all of the below fields
+    could be modified in a single PUT request.
+
+        1. `first_name`: String
+        2. `last_name`: String
+        3. `contact_no`: Integer
+        4. `email` : String
+
+
+    * Requires only the changed data of the user and `email` along the changed
+    parameters.
+
+    * Possible HTTP status codes and JSON response:
+
+        * `HTTP_200_OK` - User profile data in JSON format:
+
+                {
+                  "email": String,
+                  "id": Integer,
+                  "first_name": String,
+                  "last_name": String,
+                  "created": String,
+                  "contact_no": Integer
+                }
+
+        * `HTTP_500_INTERNAL_SERVER_ERROR`
+
+        :param pk:
+        :param request:
+    """
+
+    data = request.data
+    try:
+        item = validations_utils.item_validation(pk)  # Validates if user exists or not.
+    except ValidationException as e:  # Generic exception
+        return Response(e.errors, status=e.status)
+    if request.method == 'GET':
+        item_serializer = ItemSerializer(item)
+        return Response(item_serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(['POST'])
 @permission_classes((UserPermissions, IsAuthenticated))
 def cart(request, pk, key):
@@ -894,7 +969,7 @@ def cart_detail(request, pk):
             return Response(messages.EMPTY_CART, status=status.HTTP_404_NOT_FOUND)
         if cart_items:
             cart_serializer = CartSerializer(cart_items, many=True)
-            return Response(cart_serializer.data[::-1], status=status.HTTP_200_OK)
+            return Response(cart_serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(messages.EMPTY_CART, status=status.HTTP_204_NO_CONTENT)
 
@@ -977,4 +1052,4 @@ def horoscope(request):
             horoscope_serializer = HoroscopeSerializer(all_horoscopes, many=True)
             return Response(horoscope_serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(messages.EMPTY_VIDEOS, status=status.HTTP_204_NO_CONTENT)
+            return Response(messages.EMPTY_HOROSCOPE, status=status.HTTP_204_NO_CONTENT)

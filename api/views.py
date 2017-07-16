@@ -103,11 +103,11 @@ dd
                     user = validations_utils.user_validation_with_email(data['email'])  # Validates if user exists or
                     #  not.
 
-                    if 'HTTP_HOST' not in request.META:
-                        request.META['HTTP_HOST'] = '127.0.0.1:8000'
-                    hostname = request.META['HTTP_HOST']
-                    current_site = get_current_site(request)
-                    utils.send_welcome_mail(current_site, user.id, user.email)  # send welcome email.
+                    # if 'HTTP_HOST' not in request.META:
+                    #     request.META['HTTP_HOST'] = '127.0.0.1:8000'
+                    # hostname = request.META['HTTP_HOST']
+                    # current_site = get_current_site(request)
+                    # utils.send_welcome_mail(current_site, user.id, user.email)  # send welcome email.
                     return Response(data, status=status.HTTP_201_CREATED)
                 except ValidationException as e:  # Generic exception
                     return Response(e.errors, status=e.status)

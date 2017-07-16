@@ -50,7 +50,7 @@ SECRET_KEY = '5$r^#9=#)ei%9*_seyc)ik-7ut*#i-!yns$zqr(@obp&dglris'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['nksv-beta.herokuapp.com', 'nksv-beta0.herokuapp.com']
 
 # Application definition
 

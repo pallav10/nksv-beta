@@ -938,8 +938,8 @@ dd
                     else:
                         return Response(messages.EMPTY_CART, status=status.HTTP_404_NOT_FOUND)
                     if cart_item_obj:
-                        cart_item = Cart.objects.get(pk=cart_item_obj.id)
-                        cart_item.delete()
+                        # cart_item = Cart.objects.get(pk=cart_item_obj.id)
+                        cart_item_obj.delete()
                         return Response(messages.CART_ITEM_SUCCESSFULLY_DELETED, status=status.HTTP_200_OK)
                 except ValidationException as e:  # Generic exception
                     return Response(e.errors, status=e.status)
@@ -956,11 +956,11 @@ dd
                         cart_item_obj = Cart.objects.filter(user_id=user.id, item_id=item.id)
                     else:
                         return Response(messages.EMPTY_CART, status=status.HTTP_404_NOT_FOUND)
-                    try:
-                        cart_item = validations_utils.cart_item_validation(cart_item_obj.id)
-                    except ValidationException as e:  # Generic exception
-                        return Response(e.errors, status=e.status)
-                    updated_data = utils.update_cart_item(data, cart_item)  # Updates cart data.
+                    # try:
+                    #     cart_item = validations_utils.cart_item_validation(cart_item_obj.id)
+                    # except ValidationException as e:  # Generic exception
+                    #     return Response(e.errors, status=e.status)
+                    updated_data = utils.update_cart_item(data, cart_item_obj)  # Updates cart data.
                     return Response(updated_data, status=status.HTTP_200_OK)
                 except ValidationException as e:  # Generic exception
                     return Response(e.errors, status=e.status)

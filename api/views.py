@@ -947,8 +947,8 @@ dd
             return Response(messages.DELETE_ITEM_TO_CART_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     elif request.method == 'PUT':
         try:
-            data['user'] = user.id
-            data['item'] = item.id
+            # data['user'] = user.id
+            # data['item'] = item.id
             if Cart.objects.filter(
                     user_id=user.id,
                     item_id=item.id).exists():  # Checks if product_category exists with given id.

@@ -1,0 +1,1163 @@
+/*
+Theme Name: Astrology - Bootstrap HTML template
+Description: Fully Responsive Template
+Author: Jyostna
+Author URI: http://themeforest.net/user/jyostna
+Version: 1.0
+-------------------------------------------- */
+/*
+TABLE OF CONTENT
+--------------------------------------------
+1- Elements Page
+2- Love Compatibility Page
+3- Footer
+4- Blog Page
+5- Blog Single Page
+6- Contact Us Page
+7- Games Page
+8- Header
+9- Signs Page
+10- Homepage
+11- Signs Single Page
+12- Blog Category Page
+13- Back to top
+14- Gemstones page
+----------------------------------------------
+                                          */
+
+
+//=========Start of Elements Page==============//
+
+
+.elements_desc{
+  margin-top: 30px;
+}
+
+.section_align{
+  padding-bottom: 40px;
+}
+
+.nav-sidebar li{
+  margin-right: -31px;
+  border: 1px solid #F4F4F4;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  background-color: #F4F4F4;
+}
+
+.nav-sidebar > .nav > li.active a{
+  background-color: #4b3065;
+  color: #fff !important;
+  border-radius: 3px;
+}
+
+@media (max-width: 992px) {
+  .nav-sidebar li {
+    margin-right: 0;
+  }
+}
+
+.tour_content{
+  border:1px solid #ddd;
+  padding:20px 20px;
+}
+
+.icon_hover:hover{
+  color:#e36480;
+}
+
+.tab-content{
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 3px;
+}
+
+//.mont{
+//  font-family: Montserrat;
+//}
+//lists
+
+.lists ul{
+  list-style-type: none;
+  padding: 0;
+}
+
+.lists ul li{
+  margin-top: 10px;
+}
+
+.lists ul .fa{
+  font-size: 12px;
+  margin-right: 7px;
+}
+//tables
+
+.table1 > tbody > tr > th {
+  padding-left: 15px;
+  background-color: #ebebeb;
+  font-weight:normal;
+}
+.table1 > tbody > tr > td{
+  padding-left: 15px;
+}
+
+//form
+
+.form-section{
+  border:1px solid #ccc;
+  margin: auto;
+}
+
+.select1,.select2{
+  width:100%;
+}
+.form_align{
+  margin: 30px auto;
+}
+
+label {
+  font-weight: normal;
+}
+
+.label_height{
+  line-height: 35px;
+}
+
+.input_success{
+  border-color:#81ae3b ;
+}
+
+.input_warning{
+  border-color:#df7f20 ;
+}
+
+.input_info{
+  border-color: #4b3065 ;
+}
+
+.input_danger{
+  border-color:#e23b3b ;
+}
+
+@media (min-width: 767px){
+  .pull_align{
+    float: right;
+  }
+}
+
+//promobox
+
+.promo_section{
+  border:2px dashed #ccc;
+}
+
+.promo_align{
+  padding: 25px;
+}
+
+.promo_side_section{
+  margin-top: 20px;
+  border-bottom: 2px solid #ccc;
+}
+
+.normal_rs{
+  font-size: 25px;
+}
+
+.stricked_rs{
+  font-size: 16px;
+  color: #c0c0c0;
+  text-decoration: line-through;
+}
+
+.promo_text_align{
+  margin:20px auto;
+}
+
+//alerts section
+
+.alert_messages img{
+  padding-right: 12px;
+}
+
+//
+
+.btn_icon{
+  padding-left: 30px;
+}
+
+.btn_align{
+  padding: 12px 21px 12px 25px;
+  color:#a58ebc;
+  border-color: #a58ebc;
+}
+
+.btn_align:hover{
+background-color: #fff;
+  color:#4b3065;
+  border-color: #fff;
+}
+
+.btn_adjust{
+  margin: 20px 0 20px 0;
+}
+
+.bg-element{
+  background-image: url("../images/blogimg2.1.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.btn_element:hover{
+  background-color: #fff;
+  color:#4b3065;
+  border-color: #fff;
+}
+
+#accordion .panel,#toggle .panel{
+  margin-top: 0;
+}
+
+#accordion .fa-stack,#toggle .fa-stack{
+  font-size: 20px;
+  margin-top: -12px;
+}
+//
+//.plan_head{
+//  background-color: #987eb0;
+//  padding:1px;
+//}
+
+.plan_content{
+  background-color: #dfdfdf;
+  padding: 15px;
+}
+//=============End of Elements Page===================//
+
+//============ Start of Love compatibility Page===================//
+
+.circle{
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  padding: 26px 23px;
+  margin: -10px auto;
+  top: 30px;
+  position: relative;
+  z-index: 1;
+}
+.card{
+  background-color: #eaeaea;
+  padding-top: 55px;
+  padding-bottom: 20px;
+  border-bottom: 4px solid #E5E5E5;
+}
+.heart_image{
+  margin: 100px auto 65px auto;
+}
+
+@media(max-width: 767px){
+  .heart_image{
+    margin:50px auto 20px auto;
+  }
+
+
+}
+
+.button_margin{
+  margin-top: 50px;
+}
+.card_background{
+  background-color: #f4f4f4;
+  font-size: 15px;
+  padding: 5px;
+  border-bottom: 4px solid #E5E5E5;
+}
+.common_margin{
+  margin-top: 22px;
+}
+.hr_margin{
+  margin-bottom: 12px;
+}
+.social_icons_margin{
+  margin-top: 10px;
+}
+.sign_display{
+  display: none;
+}
+.right_sidebar_dimension{
+  padding: 15px;
+  border-radius: 5px;
+}
+.arrows_align{
+  float: right;
+  margin-top: -30px;
+}
+//================End of Love Compatibility Page=========================//
+
+//================Start of Footer Section==============================//
+
+.footer_texture{
+  background-image: url(../images/footer.jpg);
+  background-size: 100%;
+}
+
+.p-t-5{
+  padding-top: 5px;
+}
+
+.p-t-10{
+  padding-top: 10px;
+}
+
+.m-t-10{
+  margin-top: 10px;
+}
+
+.m-t-65{
+  margin-top: 65px;
+}
+
+.input_email{
+  border-radius: 50px;
+  border: none;
+  background-color: white;
+  padding: 10px;
+}
+.footer_section_align{
+  margin:20px 0 20px 0;
+}
+.footer_section_align h5{
+  font-weight: 700;
+}
+.footer_hr1{
+  margin-top: -10px !important;
+}
+
+.footer_select_section {
+  padding: 0;
+  margin-top: 10px; }
+
+.content_margin .select2-container .select2-selection--single {
+  background-color: #E7E7E7 !important;
+  border: none;
+
+}
+
+.footer_select_section .select2-container .select2-selection--single {
+  background-color: #E7E7E7 !important;
+  border: none;
+  line-height: 25px; }
+
+.footer_select_section .select2-container--default .select2-selection--single .select2-selection__arrow {
+  top: 5px !important; }
+
+.foot_text_area{
+  resize: none;
+  margin-top: 10px;
+  border-radius: 0 !important;
+}
+.footer_text_height{
+  line-height: 35px;
+}
+
+.footer_align li{
+  line-height: 35px;
+}
+
+.clear_btn{
+  margin: 15px 0 10px 0;
+}
+
+.footer_bg{
+  background-color: #F4F4F4;
+}
+.footer_align ul{
+  margin-left: -10px !important;
+  margin-bottom: 0;
+}
+.subscribe{
+
+  border: none;
+  background-color: transparent;
+}
+
+.subscribe:active{
+  box-shadow: none;
+}
+.subscribe:hover{
+  background-color: #e36480;
+}
+
+.subscribe_align:hover{
+  background-color: #e36480;
+}
+
+.subscribe_align{
+  padding: 0;
+  background-color:#fff;
+  border: none;
+  border-radius: 50px;
+}
+
+.m-t-20{
+  margin-top: 20px;
+}
+
+.m-t-26{
+  margin-top: 26px;
+}
+.select2_number{
+  line-height: 40px;
+}
+.input_email::-webkit-input-placeholder { color: #4b3065; }
+.input_email:-moz-placeholder { color: #4b3065;}
+.input_email::-moz-placeholder {color: #4b3065;}
+
+
+//==================End of Footer Section====================//
+
+//====================Start of Blog Page========================//
+
+.card_mask {
+  padding: 20px 20px 8px;
+}
+
+.card_mask p:hover{
+  transition:transform ease-in 200ms;
+  transform: scale(1.04);
+}
+.blog_card {
+  border: 2px solid #EEEEEE;
+}
+.card_content li {
+  list-style-type: none;
+  margin-left: -15px;
+}
+
+.arrow_right {
+  width: 10px;
+  margin-right: 10px;
+}
+
+.footer_select2_section  .select2-container--bootstrap{
+   width:63px !important;
+ }
+
+.blog_card_menu {
+  margin: -20px 20px 30px 0;
+}
+
+.elements_inline .select2-container--bootstrap{
+  display: inline-block;
+}
+
+
+//===============End of Blog Page======================//
+
+//===============Start of Blog Single Page===================//
+.blog_margin_list1 {
+  margin-top: 55px;
+}
+.pic_margin{
+  margin-bottom: 50px;
+}
+.blog_single_card{
+  border-bottom: 3px solid #c7c7c7;
+  background-color:#f4f4f4 ;
+  padding:12px 0 12px 0;
+}
+
+.blog_single_para > p{
+  margin: 15px 0 15px 0;
+  line-height: 24px;
+}
+
+.content_margin{
+  margin-top: 25px;
+
+}
+.blog_next{
+  margin-right: 10px;
+}
+.blog_pre{
+  margin-left: 10px;
+}
+.blogsingle_align
+{
+  margin-top: -24px;
+}
+
+//@media (min-width: 320px) and (max-width: 415px) {
+//  .article{
+//    margin-left: 30px;
+//  }
+//
+//}
+
+//===============End of Blog Single Page================//
+
+//===============Start of Contact Us Page===============//
+
+.contact_block{
+  background-color: #F4F4F4;
+}
+label{
+  font-weight: 400 !important;
+}
+
+#contact_map{
+  height:250px;
+}
+.con_pad {
+  padding: 15px;
+  margin-top: -15px;
+}
+
+.align_btn {
+  margin-top: -15px;
+}
+
+.label_align {
+  margin-top: 19px;
+}
+
+//=============End of Contact Us Page=================//
+
+//=============Start of Games Page====================//
+
+.games_pic {
+  background-image: url("../images/games_img.png");
+  background-repeat: no-repeat;
+  background-size:cover;
+  background-position: center center;
+}
+
+.font35 {
+  font-size: 35px;
+}
+
+.game_circle {
+  border: 3px solid #4C4C51;
+  border-radius: 50%;
+  height: 90px;
+  width: 90px;
+  float: right;
+  margin-top: -30px;
+}
+
+.games_content {
+  padding: 35px;
+}
+
+.image_holder img{
+  cursor: pointer;
+}
+
+.games_content_align {
+  margin-top: -10px;
+}
+
+.btn_footer {
+  margin-bottom: 35px;
+}
+
+@media (min-width: 320px) and (max-width: 569px) {
+  .games_content {
+    padding: 40px 10px 40px 10px;
+  }
+
+  .game_circle {
+    margin-top: 20px;
+    float: none;
+  }
+}
+
+.game_icons {
+  padding: 10px;
+  margin-top: 30px;
+}
+.m-t-40{
+  margin-top: 40px;
+}
+
+.slideInLeft {
+  animation-duration: 1s;
+}
+
+.image_holder .front {
+  margin-left: -30px;
+}
+
+.image_holder {
+  padding-left:30px;
+}
+
+.flipper, .front, .back {
+  display: inline-block;
+}
+
+.front, .back,.back img{
+  width: 130px;
+  height: 210px;
+}
+
+.flipper {
+  transition: 0.5s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.front, .back {
+  backface-visibility: hidden;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+.back, .back img {
+  z-index: 20000;
+}
+
+.flippedimg {
+  transform: rotateY(180deg);
+  z-index: 200;
+  margin-left: -30px;
+}
+.games_align p{
+  margin-left: 20px;
+}
+.games_align a:hover{
+  padding-left: 15px;
+}
+.games_free{
+  line-height: 20px;
+}
+
+//===========================End of Games Page==========================//
+
+//====================Start of Header========================//
+
+.backgroundclr{
+  background-color: #f3f3f3;
+}
+.tpbanner_align{
+  margin: 10px 0 10px 0;
+}
+.header_border1{
+  border-right: 2px solid #C4C4C4;
+  padding: 3px 10px 0 0;
+  float: left;
+  height: 20px;
+}
+//header li{
+//  font-family: Montserrat;
+//}
+.header_border{
+  border-right: 2px solid #C4C4C4;
+  padding: 3px 10px 0 10px;
+  float: left;
+  height: 20px;
+}
+.header_text{
+  border: 0;
+}
+.header_icons{
+  color: #C4C4C4;
+}
+.header_nav > li.active a, .header_icons:hover{
+  color: #e36480;
+}
+
+
+
+.header_bg{
+  border-radius: 50%;
+  width: 55px;
+  padding: 16px 20px;
+  margin-top: -30px;
+}
+
+@media (min-width: 320px) and (max-width: 992px){
+  .header_bg{
+    margin-top: 25px;
+  }
+
+}
+@media (min-width: 768px) and (max-width: 992px){
+  .header_nav > li > a{
+    padding: 30px 10px;
+  }
+}
+
+@media (max-width: 991px) {
+  .p_align{
+    margin-bottom: 0;
+  }
+}
+
+
+.brand_name{
+  margin-top: -20px;
+}
+
+@media(min-width: 992px){
+  .nav_head{
+    margin-top:-30px !important;
+  }
+}
+@media (width: 768px){
+  .navbar-right{
+    float: left !important;
+  }
+}
+
+
+.header_nav>li>a:hover{
+  background-color: transparent;
+  color: #E65F7D;
+}
+.button_align{
+  padding-right: 3px;
+  height:14px;
+}
+
+.nav_menubar {
+  margin-top: -20px;
+}
+.head_info{
+  letter-spacing: 3px;
+  font-weight: 700;
+}
+
+.index_center{
+  background-image: url("../images/breadcrumb.jpg");
+}
+
+.blog_right_arrow {
+  width: 10px;
+}
+.header_bg:hover{
+  background-color: #e36480;
+}
+.gplus_icon{
+  height: 18px;
+}
+.font42{
+  font-size: 42px;
+}
+.info2{
+  background-color: #e36480;
+}
+.header_border ul li{
+  list-style-type: none;
+}
+.header_border .dropdown-menu{
+  margin-left: 0;
+  width: 0;
+}
+.lang_dropdown{
+  float: left;
+  margin: -20px 0 0 30px;
+}
+@media (min-width: 767px) {
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  .dropdown > a {
+    transition: all 0.2s ease-in;
+  }
+  .dropdown-menu.animated {
+    -webkit-animation-duration: 0.55s;
+    animation-timing-function: ease;
+  }
+  .dropdown-menu.animated.fadeIn {
+    animation-duration: 0.45s;
+    animation-timing-function: ease-out;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-nav .open .dropdown-menu > li > a {
+    padding: 11px 15px 13px 25px;
+  }
+  .dropdown-menu {
+    width: 230px;
+  }
+
+}
+@media (min-width: 320px) and (max-width: 767px){
+  .dropdown-menu{
+    margin-left: 0;
+  }
+}
+
+@media (min-width:768px){
+  .head_signs{
+    padding-left: 0;
+  }
+
+}
+
+@media (max-width: 480px){
+  .header_bg {
+    border-radius: 50%;
+    width: 30px;
+    padding: 4px 6px;
+    margin: 10px 0 20px 0;
+  }
+}
+
+
+//===================End of Header====================//
+
+//===================Start of Signs Page=======================//
+
+.sign_btnpadding:hover {
+  background-color: #e36480;
+  color: #fff;
+  border-color: #e36480;
+}
+
+.sign_circle {
+  border-radius: 50%;
+  width: 60px;
+  padding: 17px 18px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  top: 45px;
+}
+.sign_card {
+  background-color: #eaeaea;
+  padding: 55px 0 20px 0;
+  border-radius: 5px;
+  border-bottom: 5px solid #E5E5E5;
+}
+
+.sign_btnpadding {
+  padding: 12px 0;
+  border-radius: 5px;
+  margin-top: 19px;
+  text-align: center;
+  font-size: 13px;
+
+}
+.font11{
+  font-size: 11px;
+}
+
+.signs_bg:hover {
+  background-color: #4b3065;
+  border-radius: 5px 5px 10px 10px;
+}
+
+.signs_bg:hover .signs_clr {
+  color: #fff;
+}
+
+.signs_bg:hover .signtext_clr {
+  color: #e5e5e5;
+}
+
+
+//=======================End of Signs Page==========================//
+
+//=======================Start of Homepage===========================//
+
+.home_bg {
+  background-image: url("../images/home_image.jpg");
+}
+
+.home_margin {
+  margin: 50px 0 50px 0;
+}
+
+.home_circle {
+  border: 3px solid #fff;
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  line-height: 33px;
+  padding-top: 20px;
+  float: right;
+  margin-right: 1%;
+}
+
+@media (max-width: 510px) {
+  .home_circle {
+    height: 70px;
+    width: 70px;
+    line-height: 15px;
+    padding-top: 16px;
+  }
+
+  .home_circle p{
+    font-size: 15px;
+  }
+
+}
+.home_pic1 {
+  position: relative;
+}
+.m-b-25{
+  margin-bottom: 25px;
+}
+
+.text_image {
+  position: absolute;
+  bottom: 5%;
+  right: 10%;
+  text-decoration: underline;
+}
+
+.home_dob .select2-container .select2-selection--single {
+  height: 38px;
+}
+
+
+@media(min-width:768px ){
+  .home_date{
+    margin-top: 63px;
+  }
+}
+
+.home_view{
+  text-decoration: underline;
+}
+.home_head {
+  border-bottom: 5px solid #f3f3f3;
+  width: 15%;
+}
+.home_align{
+  padding: 0 30px;
+}
+.home_padding{
+  padding-top: 25px;
+}
+/*hover effect*/
+
+.blog_text1 {
+  width: 92%;
+  position: absolute;
+  top: 41%;
+  left: -2px;
+  background-size: cover;
+  background-image: url("../images/footer.jpg");
+  opacity: 0.4;
+}
+
+.blog_text {
+  display: none;
+  background-color: rgba(0, 0, 255, 0);
+  height: 59%;
+}
+
+.displaytext {
+  display: block !important;
+  margin-left: 18px;
+  z-index: 1;
+}
+
+.over {
+  transform:             rotate( -360deg );
+  -moz-transform:    rotate( -360deg );
+  -ms-transform:     rotate( -360deg );
+  -o-transform:      rotate( -360deg );
+  -webkit-transform: rotate( -360deg );
+  transition:             transform 550ms ease;
+  -moz-transition:    -moz-transform 550ms ease;
+  -o-transition:      -o-transform 550ms ease;
+  -webkit-transition: -webkit-transform 550ms ease;
+}
+
+//===================End of Signs Page=========================//
+
+//===================Start of Signs Single Page================//
+
+.singleimage_text {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 7px 20px;
+  position: relative;
+}
+
+.signsingle_circle {
+  border-radius: 50%;
+  padding: 10px 17px;
+  float: right;
+  margin-top: -72px;
+}
+
+.signsingle_nav > li > a {
+  padding: 10px 18px;
+  border-radius: 0;
+}
+
+.card1_text {
+  position: absolute;
+  padding: 5px 0 5px 5px;
+  bottom: 44%;
+  width: 70%;
+  margin-left: 13%;
+}
+
+.sign_single {
+  background-image: url("../images/signsingle_image2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.signsingle_circle:hover {
+  background-color: #4b3065;
+}
+.single_clr{
+  border: 3px solid #fff;
+}
+.singleimage_text1{
+  padding: 1px;
+  bottom: 20px;
+}
+.signsingle_circle1 {
+  padding: 3px 10px;
+  margin-top: -60px;
+}
+
+.tab_singlepost{
+  border: none;
+  padding: 0;
+}
+//================End of Signs Single Page==================//
+
+//================Start of Blog Category Page==============//
+
+.category_color{
+  background-color: #F4F4F4;
+  padding: 20px;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+//=================End of Blog Category Page==============//
+
+
+//===============start of Back-to-top button==================//
+
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #e36480;
+  width: 55px;
+  height: 55px;
+  text-decoration: none;
+  border-radius: 10px;
+  display: none;
+  z-index: 9999;
+}
+
+.back-to-top i {
+  color: #fff;
+  left: 11px;
+  position: relative;
+  top: 8px;
+  font-size: 40px;
+  z-index: 9999;
+}
+.back-to-top:hover{
+  background-color: #4b3065;
+}
+
+//===============End of Back-to-top button==================//
+
+//===============Start of Gemstones page==================//
+
+.gemsingle{
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+  margin-top:60px;
+}
+
+.gemsingle:hover{
+  border-color: #e36480;
+}
+
+.gemstone_hover:hover{
+  color:#393838;
+}
+
+.gemsingle:hover img{
+  top:-60px;
+  background-color: #fff;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.gemsingle img{
+  position: relative;
+  top:100px;
+  display: inline-block;
+  margin-bottom: 40px;
+  padding: 10px;
+  transition: all 0.5s ease;
+}
+
+.text_modify{
+  letter-spacing: 0.2em;
+}
+
+.gemsingle:hover h2{
+  top:-30px;
+}
+
+.gemsingle h2{
+  position:relative;
+  top:80px;
+  transition: all 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.gemsingle:hover .gem_desc{
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gemsingle .gem_desc{
+  opacity: 0;
+  transition:all 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@media only screen and (max-width: 767px){
+  .gemsingle{
+    height: auto;
+  }
+  .gemsingle img{
+    top:0;
+  }
+
+  .gemsingle h2{
+    top:-30px;
+    margin-bottom: 0;
+
+  }
+ .gemsingle .gem_desc{
+   opacity: 1;
+ }
+}
+
+.gemstone_align p{
+  line-height: 32px;
+}
+
+.hr_bottom_align hr{
+  margin-bottom: 0;
+}
+//=================End of Gemstones page====================//

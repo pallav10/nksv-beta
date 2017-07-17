@@ -1,0 +1,19 @@
+#desktop {
+	float: right;
+}
+
+@media screen and (max-width: 991px) {
+	#desktop {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 992px) {
+	#mobile {
+		display: none;
+	}
+}
+
+.adjust {
+  margin-bottom: 20px;
+}

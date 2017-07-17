@@ -1,0 +1,41 @@
+
+
+$btn-font-weight:                400;
+
+$btn-default-color:              #fff;
+$btn-default-bg:                 #c7c7c7;
+$btn-default-border:             #c7c7c7;
+
+$btn-primary-color:              #fff !default;
+$btn-primary-bg:                 #e36480;
+$btn-primary-border:             #e36480;
+
+$btn-success-color:              #fff !default;
+$btn-success-bg:                 #81ae3b !default;
+$btn-success-border:             #81ae3b;
+
+$btn-info-color:                 #fff !default;
+$btn-info-bg:                    #4b3065;
+$btn-info-border:                #4b3065;
+
+$btn-warning-color:              #fff !default;
+$btn-warning-bg:                 #df7f20;
+$btn-warning-border:             #df7f20;
+
+$btn-danger-color:               #fff !default;
+$btn-danger-bg:                  #e23b3b;
+$btn-danger-border:              #e23b3b;
+
+
+// Allows for customizing button radius independently from global border radius
+$btn-border-radius-base:         25px;
+$btn-border-radius-large:        25px;
+$btn-border-radius-small:        25px;
+
+.btn:active:focus,.btn:focus{
+  outline: 0 !important;
+
+}
+
+
+

@@ -1,0 +1,186 @@
+@import 'https://fonts.googleapis.com/css?family=Montserrat';
+@import "bootstrap_custom";
+
+//Buttons Hover Section//
+
+
+.btn-primary:hover,.btn-default:hover{
+  color:#fff;
+  background-color:#4b3065;
+  border-color: #4b3065;
+}
+
+.btn-default:focus{
+  outline: none;
+  background-color: #c7c7c7;
+  border-color: #c7c7c7;
+}
+
+.btn-primary:focus{
+  outline: none;
+  background-color: $brand-primary;
+  border-color: $brand-primary;
+}
+
+//.btn:active:focus,.btn:focus{
+//  outline: none;
+//  background-color: inherit;
+//  border-color:transparent;
+//
+//}
+
+
+.btn{
+  font-size: 15px;
+}
+
+.btn-sm{
+  padding:7px 25px;
+}
+.btn-md{
+  padding: 12px 30px;
+}
+hr{
+  margin-top: 0;
+  margin-bottom: 18px;
+  border-top:2px solid #e7e7E7;
+}
+
+a.text-info:hover, a.text-info:focus{
+  color:#e36480;
+}
+
+a:focus{
+  color:#494949;
+}
+
+
+.bg-white{
+  background-color: #fff;
+}
+
+//Panels
+.panel-default > .panel-heading
+{
+  color:#4b3065;
+  background-color: #EBEBEB;
+}
+
+.panel-info > .panel-heading{
+  color: #fff;
+  background-color: #4b3065;
+  border-color: #4b3065;
+}
+
+.panel-title{
+  font-size: 16px;
+}
+
+.panel-heading{
+  padding: 20px 20px;
+}
+
+.panel-body{
+  padding: 20px;
+}
+
+
+
+//Nav Tabs
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+  color:#fff;
+  background-color: #4b3065;
+  border:1px solid #4b3065;
+}
+
+.nav-tabs > li > a{
+  margin-right: 0;
+  border: 1px solid #F4F4F4;
+  border-radius: 3px;
+  background-color: #F4F4F4;
+}
+
+.nav-tabs{
+  border-bottom: none;
+}
+
+.tab_content{
+ border:1px solid #ddd;
+}
+
+.nav .open > a:focus{
+  background-color: transparent;
+}
+
+.nav > li > a:focus{
+  background-color: transparent;
+}
+
+//Forms
+
+.form-control{
+  border-radius: 5px;
+}
+
+textarea{
+  width:100%;
+  border-radius:0;
+  resize: none;
+}
+
+.text-white{
+  color:#fff;
+}
+.bg_grey{
+  background-color: #f9f9f9;
+}
+
+//Dropdowns
+
+.dropdown-menu{
+  margin-left: -80%;
+  box-shadow: 0 8px 15px #393838;
+  width: 250px;
+  padding: 0;
+}
+
+.dropdown_mod {
+  left: 0 !important;
+}
+
+.dropdown-menu li a {
+  padding-top: 11px;
+  padding-bottom: 13px;
+  color:#4b3065 !important; ;
+}
+
+.dropdown-menu > li > a:hover{
+  background-color:$brand-info;
+  color: #fff !important;
+}
+
+.nav > li > a:focus{
+  color:$brand-info;
+}
+
+//header
+
+@media (min-width: 768px){
+  .navbar-right{
+    margin-right: 0;
+  }
+
+  .navbar-collapse{
+    padding-left: 0;
+  }
+}
+.navbar-toggle{
+  margin-right: 0;
+}
+
+@media(max-width:1200px){
+  .select2{
+    width:100% !important;
+  }
+}

@@ -1,0 +1,89 @@
+/*-----------------------------------------------------------------------------
+
+KENBURNER RESPONSIVE BASIC STYLES OF HTML DOCUMENT
+
+Screen Stylesheet
+
+version:   	1.0
+date:      	07/27/11
+author:		themepunch
+email:     	support@themepunch.com
+website:   	http://www.themepunch.com
+-----------------------------------------------------------------------------*/
+
+.boxedcontainer {
+    max-width: 1170px;
+    margin: auto;
+    padding: 0px 30px;
+}
+
+/*********************************************
+	-	SETTINGS FOR BANNER CONTAINERS	-
+**********************************************/
+
+.tp-banner-container {
+    width: 100%;
+    position: relative;
+    padding: 0;
+
+}
+
+.tp-banner {
+    width: 100%;
+    position: relative;
+}
+
+.tp-banner-fullscreen-container {
+    width: 100%;
+    position: relative;
+    padding: 0;
+}
+
+.tp-rightarrow.default.tp-leftarrow.default {
+    display: none !important;
+}
+
+.tp-leftarrow.default:after, .tp-rightarrow.default:after {
+    display: none !important;
+}
+
+.tp-bullets.simplebullets.round .bullet {
+    display: none !important;
+}
+
+.tp-leftarrow.default:hover, .tp-rightarrow.default:hover {
+    display: none !important;
+}
+
+.tp-leftarrow.default {
+    background-image: none !important;
+}
+
+.tp-rightarrow.default {
+    background-image: none !important;
+}
+
+.tparrows.preview2 {
+    display: none !important;
+}
+
+.largeredbtn {
+
+    background: #252525 !important;
+    border-radius: 28px !important;
+    font-weight: normal;
+    font-family: 'roboto', sans-serif;
+    padding: 8% 19% !important;
+    color: #ffffff !important;
+}
+
+.largeredbtn i {
+    position: relative;
+    top: 1px;
+    font-size: 12px;
+}
+
+.largeredbtn:hover {
+    background-color: #00bff3 !important;
+    color: #fff !important;
+}

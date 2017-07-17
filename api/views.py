@@ -849,7 +849,7 @@ def item_detail(request, pk):
         return Response(item_serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'DELETE'])
 @permission_classes((UserPermissions, IsAuthenticated))
 def cart(request, pk, key):
     """
@@ -925,6 +925,25 @@ dd
                     return Response(e.errors, status=e.status)
         except IntegrityError:
             return Response(messages.ADD_ITEM_TO_CART_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    elif request.method == 'DELETE':
+        try:
+            with transaction.atomic():
+                try:
+                    if Cart.objects.filter(
+                            user_id=user.id,
+                            item_id=item.id).exists():  # Checks if product_category exists with given id.
+
+                        cart_item_obj = Cart.objects.filter(user_id=user.id, item_id=item.id)
+                    else:
+                        return Response(messages.EMPTY_CART, status=status.HTTP_404_NOT_FOUND)
+                    if cart_item_obj:
+                        cart_item = Cart.objects.get(pk=cart_item_obj.id)
+                        cart_item.delete()
+                        return Response(messages.CART_ITEM_SUCCESSFULLY_DELETED, status=status.HTTP_200_OK)
+                except ValidationException as e:  # Generic exception
+                    return Response(e.errors, status=e.status)
+        except IntegrityError:
+            return Response(messages.DELETE_ITEM_TO_CART_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])
@@ -974,7 +993,7 @@ def cart_detail(request, pk):
             return Response(messages.EMPTY_CART, status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['PUT', 'DELETE'])
+@api_view(['PUT'])
 @permission_classes((UserPermissions, IsAuthenticated))
 def update_cart_detail(request, pk):
     data = request.data
@@ -993,18 +1012,18 @@ def update_cart_detail(request, pk):
         except IntegrityError:
             return Response(messages.UPDATE_ITEM_TO_CART_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    elif request.method == 'DELETE':
-        try:
-            with transaction.atomic():
-                try:
-                    if cart_item:
-                        cart_item = Cart.objects.get(pk=pk)
-                        cart_item.delete()
-                        return Response(messages.CART_ITEM_SUCCESSFULLY_DELETED, status=status.HTTP_200_OK)
-                except ValidationException as e:  # Generic exception
-                    return Response(e.errors, status=e.status)
-        except IntegrityError:
-            return Response(messages.DELETE_ITEM_TO_CART_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # elif request.method == 'DELETE':
+    #     try:
+    #         with transaction.atomic():
+    #             try:
+    #                 if cart_item:
+    #                     cart_item = Cart.objects.get(pk=pk)
+    #                     cart_item.delete()
+    #                     return Response(messages.CART_ITEM_SUCCESSFULLY_DELETED, status=status.HTTP_200_OK)
+    #             except ValidationException as e:  # Generic exception
+    #                 return Response(e.errors, status=e.status)
+    #     except IntegrityError:
+    #         return Response(messages.DELETE_ITEM_TO_CART_FAILED, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])

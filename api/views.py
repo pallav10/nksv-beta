@@ -911,14 +911,15 @@ dd
         token_user_id = validations_utils.user_token_validation(
             request.auth.user_id, pk)  # Validates user's Token authentication.
         item = validations_utils.item_validation(key)
-        data['user'] = user.id
-        data['item'] = item.id
+
     except ValidationException as e:  # Generic exception
         return Response(e.errors, status=e.status)
     if request.method == 'POST':
         try:
             with transaction.atomic():
                 try:
+                    data['user'] = user.id
+                    data['item'] = item.id
                     data = utils.add_item_to_cart(data)  # Creates user with request data.
                     return Response(data, status=status.HTTP_201_CREATED)
                 except ValidationException as e:  # Generic exception

@@ -930,11 +930,9 @@ dd
         try:
             with transaction.atomic():
                 try:
-                    if Cart.objects.filter(
-                            user_id=user.id,
-                            item_id=item.id).exists():  # Checks if product_category exists with given id.
-
-                        cart_item_obj = Cart.objects.filter(user_id=user.id, item_id=item.id)
+                    if Cart.objects.filter(user_id=user.id).filter(item_id=item.id).exists():
+                        # Checks if product_category exists with given id.
+                        cart_item_obj = Cart.objects.filter(user_id=user.id).filter(item_id=item.id)
                     else:
                         return Response(messages.EMPTY_CART, status=status.HTTP_404_NOT_FOUND)
                     if cart_item_obj:
@@ -949,11 +947,9 @@ dd
         try:
             # data['user'] = user.id
             # data['item'] = item.id
-            if Cart.objects.filter(
-                    user_id=user.id,
-                    item_id=item.id).exists():  # Checks if product_category exists with given id.
-
-                cart_item_obj = Cart.objects.filter(user_id=user.id, item_id=item.id)
+            if Cart.objects.filter(user_id=user.id).filter(item_id=item.id).exists():
+                # Checks if product_category exists with given id.
+                cart_item_obj = Cart.objects.filter(user_id=user.id).filter(item_id=item.id)
             else:
                 return Response(messages.EMPTY_CART, status=status.HTTP_404_NOT_FOUND)
             # try:

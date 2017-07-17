@@ -949,6 +949,8 @@ dd
         try:
             with transaction.atomic():
                 try:
+                    data['user'] = user.id
+                    data['item'] = item.id
                     if Cart.objects.filter(
                             user_id=user.id,
                             item_id=item.id).exists():  # Checks if product_category exists with given id.

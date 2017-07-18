@@ -170,3 +170,8 @@ def add_item_to_cart(data):
         return custom_response
     else:
         raise exceptions_utils.ValidationException(cart_serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+
+def get_item_id(obj):
+    item = [v for k, v in obj.iteritems() if k == 'item']
+    return item[0]

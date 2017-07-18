@@ -1008,7 +1008,14 @@ def cart_detail(request, pk):
             return Response(messages.EMPTY_CART, status=status.HTTP_404_NOT_FOUND)
         if cart_items:
             cart_serializer = CartSerializer(cart_items, many=True)
-            return Response(cart_serializer.data, status=status.HTTP_200_OK)
+            cart_data = cart_serializer.data
+            data = []
+            for obj in cart_data:
+                x = utils.get_item_id(obj)
+                item = validations_utils.item_validation(int(x))
+                obj['name'] = item.name
+                data.append(obj)
+            return Response(data, status=status.HTTP_200_OK)
         else:
             return Response(messages.EMPTY_CART, status=status.HTTP_204_NO_CONTENT)
 

@@ -286,7 +286,7 @@ class Category(models.Model):
 
     item_type = models.ForeignKey(ItemType)
     name = models.CharField(max_length=100, blank=True)
-    description = models.CharField(max_length=500, blank=True)
+    description = models.TextField(max_length=5000, blank=True)
     image = models.ImageField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -307,7 +307,7 @@ class Item(models.Model):
 
     category = models.ForeignKey(Category)
     name = models.CharField(max_length=100, blank=True)
-    description = models.CharField(max_length=500, blank=True)
+    description = models.TextField(max_length=5000, blank=True)
     image = models.ImageField(blank=True)
     price = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
@@ -368,7 +368,7 @@ class Article(models.Model):
         managed = True
 
     name = models.CharField(max_length=100, db_index=True)
-    description = models.TextField(max_length=500, blank=True)
+    description = models.TextField(max_length=5000, blank=True)
     image = models.ImageField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -384,7 +384,7 @@ class ImageGallery(models.Model):
     class Meta:
         db_table = 'images'
     name = models.CharField(max_length=100, blank=True)
-    description = models.CharField(max_length=400, blank=True)
+    description = models.TextField(max_length=4000, blank=True)
     image = models.ImageField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -402,7 +402,7 @@ class VideoGallery(models.Model):
         managed = True
 
     name = models.CharField(max_length=100, blank=True)
-    description = models.CharField(max_length=400, blank=True)
+    description = models.TextField(max_length=4000, blank=True)
     video = models.FileField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -426,7 +426,7 @@ class Horoscope(models.Model):
                          ('Sagittarius', 'Sagittarius'), ('Capricorn', 'Capricorn'), ('Aquarius', 'Aquarius'),
                          ('Pisces', 'Pisces')]
     name = models.CharField(max_length=20, choices=HOROSCOPE_CHOICES, blank=False, default='Aries')
-    description = models.CharField(max_length=500)
+    description = models.TextField(max_length=5000, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

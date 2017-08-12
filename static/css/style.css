@@ -1,0 +1,32 @@
+.pass-reset {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	 margin: auto;
+	width: 100%;
+	max-width: 500px;
+	max-height: 230px;
+	border: 2px solid #7e7e7e;
+	border-radius: 5px;
+}
+
+.style-input-div {
+	padding: 15px 15px 0 15px;
+}
+
+.input-pass-div {
+	color: #7e7e7e;
+	background-color: #ffffff;
+}
+
+.reset-button {
+	margin-bottom: 10px;
+	margin-left: 16px;
+}
+
+.p-l-16 {
+	padding-left: 16px;
+	margin-bottom: 0;
+}
